@@ -90,12 +90,11 @@ footer p{
 }
 #home nav{
     position: absolute;
-    top: 3.5rem;
-    right: 1rem;
+    top: 8%;
+    right: 1%;
 }
 #home nav ul li{
-    padding-left: 50px;
-    padding-right: 25px;
+    padding-right: clamp(1px, 10vw, 50px);
     font-size: clamp(1rem, 3vw, 1.56rem);
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
@@ -210,7 +209,7 @@ footer p{
     max-width: 600px;
 }
 #contact_info h2{
-    font-size: 75px;
+    font-size: clamp(1rem, 10vw, 5rem);
     padding: 10px 0px 10px 0px;
 }
 #contact_info p{
@@ -247,6 +246,7 @@ form input[type="checkbox"]{
 }
 form h3{
    padding-left: 20px;
+   font-size: clamp(1rem, 1vw, 4rem);
 }
 #buttons{
     display: flex;
@@ -262,11 +262,11 @@ form h3{
 form input{
     margin: 10px 20px 10px 20px;
     min-height: 40px;
-    width: clamp(24rem, 33vw, 35rem);
+    width: clamp(14rem, 30vw, 35rem);
 }
 form textarea{
     margin: 10px 20px 10px 20px;
-    width: clamp(24rem, 33vw, 35rem);
+    width: clamp(14rem, 30vw, 35rem);
 }
 .error{
     color: #691F1B;
@@ -282,7 +282,7 @@ form textarea{
         padding: 0rem 1rem 1rem 0rem;
     }
     #head nav{
-        margin-top: 1rem;
+        margin-top: 1.5rem;
     }
     #small{
         display: block;
@@ -296,6 +296,7 @@ form textarea{
     }
     #contact_info h2, #contact_info p, form{
         padding-left: 15px;
+        padding-right: 15px;
         margin-left: 15px;
         margin-right: 15px;
     }
