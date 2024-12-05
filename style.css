@@ -81,7 +81,7 @@ footer p{
 }
 #home h1{
     position: absolute;
-	top: 40%;
+	top: 35%;
 	left: 5%;
     font-size: clamp(2rem, 8vw, 6.25rem);
     color: white;
@@ -209,7 +209,7 @@ footer p{
     max-width: 600px;
 }
 #contact_info h2{
-    font-size: clamp(1rem, 10vw, 5rem);
+    font-size: clamp(1.5rem, 10vw, 5rem);
     padding: 10px 0px 10px 0px;
 }
 #contact_info p{
@@ -295,8 +295,8 @@ form textarea{
         text-align: center;
     }
     #contact_info h2, #contact_info p, form{
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
         margin-left: 15px;
         margin-right: 15px;
     }
