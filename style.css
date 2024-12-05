@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Oldenburg&family=Quintessential&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*applicable to the whole site*/
+
+h2, h3, h4, h5, li, label, input, textarea, p{
+    font-family: Oldenburg, 'Times New Roman', Arial;
+}
+li{
+    list-style: none;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+a:hover{
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+    transition: 0.5s;
+}
+main{
+    background-color: #f0ebe4;
+}
+.sales h4, .sales p, #products p{
+    display: flex;
+    justify-content: center;
+}
+
+/*header*/
+
+#head{
+    display: flex;
+    justify-content: space-between;
+    background-color: #9e5652;
+}
+#head h1{
+    font-size: clamp(1.25rem, 2vw, 3rem);
+    padding: 1rem;
+    font-family: Quintessential, 'Times New Roman', Arial;
+}
+#head nav{
+    margin-top: 1.5rem;
+}
+#head nav ul{
+    display: flex;
+    justify-content: right;
+}
+#head nav ul li{
+    padding: 0rem 2rem 0rem 1rem;
+    font-size: clamp(0.5rem, 3vw, 1.56rem);
+}
+#home nav ul, #footernav ul{
+    display: flex;
+}
+
+/*footer*/
+
+footer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: #9CA6D5;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#footernav ul li{
+    padding-left: 25px;
+    padding-top: 15px;
+}
+footer p{
+    padding-top: 15px;
+}
+
+/*applicable to the home page*/
+
+#home{
+    position: relative;
+}
+#home h1{
+    position: absolute;
+	top: 40%;
+	left: 5%;
+    font-size: clamp(2rem, 8vw, 6.25rem);
+    color: white;
+    font-family: Quintessential, 'Times New Roman', Arial;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+#home nav{
+    position: absolute;
+    top: 3.5rem;
+    right: 1rem;
+}
+#home nav ul li{
+    padding-left: 50px;
+    padding-right: 25px;
+    font-size: clamp(1rem, 3vw, 1.56rem);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+#home nav ul li a{
+    color: white;
+}
+#home nav ul li a:hover{
+    color: black;
+}
+#home img{
+    opacity: 75%;
+    width: 100%;
+}
+#home h2{
+    position: absolute;
+    bottom: 2rem;
+    right: 1rem;
+    color: white;
+    font-size: clamp(1rem, 4vw, 2.5rem);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+#welcome{
+    display: flex;
+    justify-content: center;
+    padding: 35px;
+}
+#welcome div{
+    max-width: 900px;
+    text-align: center;
+}
+#welcome h3{
+    padding-bottom: 10px;
+    font-size: 35px;
+    font-style: italic;
+}
+#welcome p{
+    display: flex;
+    justify-content: center;
+    font-style: italic;
+    font-size: 16px;
+}
+.sales{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+.sales div{
+    background: #c4b7a3;
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+.sales img{
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 1rem;
+}
+.italic{
+    font-style: italic;
+    margin: auto;
+    font-size: 1.5rem;
+}
+.strike{
+    text-decoration: line-through;
+}
+
+/*applicable to the products page */
+
+#selection{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    font-style: italic;
+    padding: 20px;
+    text-align: center;
+}
+#products{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, calc(100% / 3 - 2rem)));
+    justify-content: space-around;
+    gap: 2rem;
+    place-items: center;
+}
+#products div{
+    padding: 20px;
+    margin: 10px 0px 40px 0px;
+    background: #c4b7a3;
+    border-radius: 20px;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    max-width: 300px;
+}
+#products img{
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+/* applicable to the contact page */
+
+#contact{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px 0px 20px 0px;
+}
+#contact_info{
+    max-width: 600px;
+}
+#contact_info h2{
+    font-size: 75px;
+    padding: 10px 0px 10px 0px;
+}
+#contact_info p{
+    padding: 25px 20px 35px 0px;
+    font-size: 25px;
+}
+form{
+    padding: 20px;
+    background-color: #c4b7a3;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin: 40px 0px 40px 0px;
+    max-width: 580px;
+}
+form input:focus, form textarea:focus{
+    background-color: #9e5652;
+    color: white;
+}
+#checkbox-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#checkbox-container div{
+    display: flex;
+    align-items: center;
+    min-width: 250px;
+    flex: 1;
+}
+form input[type="checkbox"]{
+    max-width: 15px;
+    min-height: 30px;
+    margin: 5px 5px 5px 25px;
+}
+form h3{
+   padding-left: 20px;
+}
+#buttons{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    padding: 0px 20px 0px 20px;
+}
+#buttons button{
+    padding: 8px 20px 8px 20px;
+    font-size: 14px;
+    margin-top: 15px;
+}
+form input{
+    margin: 10px 20px 10px 20px;
+    min-height: 40px;
+    width: clamp(24rem, 33vw, 35rem);
+}
+form textarea{
+    margin: 10px 20px 10px 20px;
+    width: clamp(24rem, 33vw, 35rem);
+}
+.error{
+    color: #691F1B;
+    font-style: italic;
+    margin: 5px 20px 5px 20px;
+}
+#small{
+    display: none;
+}
+
+@media(max-width: 1145px){
+    #head nav ul li{
+        padding: 0rem 1rem 1rem 0rem;
+    }
+    #head nav{
+        margin-top: 1rem;
+    }
+    #small{
+        display: block;
+    }
+    #large{
+       display: none;
+    }
+    .italic{
+        grid-column: 1 / -1;
+        text-align: center;
+    }
+    #contact_info h2, #contact_info p, form{
+        padding-left: 15px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    #border{
+        padding-left: 10px;
+    }
+}
