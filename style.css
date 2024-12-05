@@ -10,7 +10,7 @@ body{
     width: 100%;
     overflow-x: hidden;
 }
-h2, h3, h4, h5, li, label, input, textarea, p{
+h2, h3, h4, h5, li, p, label, input, textarea, button{
     font-family: Oldenburg, 'Times New Roman', Arial;
 }
 li{
@@ -215,7 +215,7 @@ footer p{
     max-width: 600px;
 }
 #contact_info h2{
-    font-size: clamp(2rem, 10vw, 5rem);
+    font-size: clamp(2.5rem, 15vw, 5rem);
     padding: 10px 0px 10px 0px;
 }
 #contact_info p{
