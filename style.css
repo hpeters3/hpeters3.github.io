@@ -1,12 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Oldenburg&family=Quintessential&display=swap');
+
+/*applicable to the whole site*/
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-/*applicable to the whole site*/
-
+body{
+    width: 100%;
+    overflow-x: hidden;
+}
 h2, h3, h4, h5, li, label, input, textarea, p{
     font-family: Oldenburg, 'Times New Roman', Arial;
 }
@@ -81,7 +84,7 @@ footer p{
 }
 #home h1{
     position: absolute;
-	top: 35%;
+	top: 40%;
 	left: 5%;
     font-size: clamp(2rem, 8vw, 6.25rem);
     color: white;
@@ -196,6 +199,9 @@ footer p{
     padding-bottom: 10px;
     width: 100%;
 }
+#small{
+    display: none;
+}
 
 /* applicable to the contact page */
 
@@ -209,7 +215,7 @@ footer p{
     max-width: 600px;
 }
 #contact_info h2{
-    font-size: clamp(1.5rem, 10vw, 5rem);
+    font-size: clamp(2rem, 10vw, 5rem);
     padding: 10px 0px 10px 0px;
 }
 #contact_info p{
@@ -273,9 +279,6 @@ form textarea{
     font-style: italic;
     margin: 5px 20px 5px 20px;
 }
-#small{
-    display: none;
-}
 
 @media(max-width: 1145px){
     #head nav ul li{
@@ -283,6 +286,9 @@ form textarea{
     }
     #head nav{
         margin-top: 1.5rem;
+    }
+    #home h1{
+        top: 30%;
     }
     #small{
         display: block;
