@@ -296,6 +296,9 @@ form textarea{
     #home h1{
         top: 32%;
     }
+    #home nav{
+        top: 3%;
+    }
     #small{
         display: block;
     }
