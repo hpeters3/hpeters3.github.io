@@ -3,9 +3,29 @@
 	require('connect.php');
 
 	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-	$id = true;
+	$query = "SELECT id FROM book_inventory WHERE id =:id";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':id', $id, PDO::PARAM_INT);
+	$statement->execute();
+	$exists = $statement->rowCount() > 0;
+	$display = true;
 
-	if($_POST && !empty($_POST['title']) && !empty($_POST['author']) && !empty($_POST['description']) && !empty($_POST['genre']) && !empty($_POST['stock']) && !empty($_POST['price']))
+	if(isset($_POST['delete']))
+	{
+		$id = filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT);
+		$query = "DELETE FROM book_inventory WHERE id = :id";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+
+		header("Location: inventory.php");
+		exit;
+	}
+	else if($_POST && (empty($_POST['title']) || empty($_POST['author']) || empty($_POST['description']) || empty($_POST['genre']) || empty($_POST['stock']) || empty($_POST['price'])))
+	{
+		$display = false;
+	}
+	else if($_POST && isset($_POST['title']) && isset($_POST['author']) && isset($_POST['description']) && isset($_POST['genre']) && isset($_POST['stock']) && isset($_POST['price']) && isset($_POST['id']))
 	{
 		$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -14,7 +34,7 @@
 		$stock = filter_input(INPUT_POST, 'stock', FILTER_SANITIZE_NUMBER_INT);
 		$price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-		$query = "INSERT INTO book_inventory (title, author, description, genre, stock, price) VALUES (:title, :author, :description, :genre, :stock, :price)";
+		$query = "UPDATE book_inventory SET title = :title, author = :author, description = :description, genre = :genre, stock = :stock, price = :price WHERE id = :id";
 		$statement = $db -> prepare($query);
 		$statement->bindValue(':title', $title);
 		$statement->bindValue(':author', $author);
@@ -22,18 +42,25 @@
 		$statement->bindValue(':genre', $genre);
 		$statement->bindValue(':stock', $stock);
 		$statement->bindValue(':price', $price);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
 		$statement->execute();
 
 		header("Location: inventory.php");
 		exit;
 	}
-	else if($_POST && (empty($_POST['title']) || empty($_POST['author']) || empty($_POST['description']) || empty($_POST['genre']) || empty($_POST['stock']) || empty($_POST['price'])))
+	else if(isset($_GET['id']) && $exists == true)
+	{
+		$query = "SELECT * FROM book_inventory WHERE id = :id";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+		$post = $statement->fetch();
+	}
+	else
 	{
 		$id = false;
 	}
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +68,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Parallel Inventory</title>
 	<link type="text/css" rel="stylesheet" href="style.css">
+	<link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
@@ -62,40 +90,43 @@
 	</header>
 	<main id="contact">
 		<div id="contact_info">
-			<?php if ($id): ?>
-				<form method="post" action="post.php">
+			<?php if($id && $display):?>
+				<form method="post">
+					<input type="hidden" name="id" value="<?= $post['id'] ?>">
 					<fieldset>
-						<legend>New Book</legend>
+						<legend>Update Book</legend>
 						<p><label for="title">Title</label>
-						<input id="title" name="title"></p>
+						<input id="title" name="title" value="<?=$post['title']?>"></p>
 
 						<p><label for="author">Author</label>
-						<input id="author" name="author"></p>
+						<input id="author" name="author" value="<?=$post['author']?>"></p>
 
 						<p><label for="description">Description</label>
-						<input id="description" name="description"></p>
+						<input id="description" name="description" value="<?=$post['description']?>"></p>
 
 						<p><label for="genre">Genre</label>
-						<input id="genre" name="genre"></p>
+						<input id="genre" name="genre" value="<?=$post['genre']?>"></p>
 
 						<p><label for="stock">Stock</label>
-						<input id="stock" name="stock"></p>
+						<input id="stock" name="stock" value="<?=$post['stock']?>"></p>
 
 						<p><label for="price">Price</label>
-						<input id="price" name="price"></p>
+						<input id="price" name="price" value="<?=$post['price']?>"></p>
 					</fieldset>
-
-					<div id="buttons">
-						<p><input type="submit" value="Submit"></p>
-						<p><input type="reset" value="Reset"></p>
-					</div>
+					<p><input id="buttons" type="submit" value="Update"></p>
 				</form>
-			<?php else:
-				echo "You missed something, make sure you fill in all the fields.";
+
+				<form method="post" id="buttons">
+					<input type="hidden" name="delete" value="<?=$post['id']?>">
+					<button type="submit">Delete</button>
+				</form>
+			<?php elseif($display == false):
+				echo "Make sure you have something in all the fields.";
+			else:
+				header("Location: inventory.php");
 			endif ?>
 		</div>
 	</main>
-
 	<footer>
 		<a href="https://www.facebook.com/" target="_blank"><img src="Images/Facebook-removebg.png" alt="Facebook"></a>
 		<a href="https://www.instagram.com/" target="_blank"><img src="Images/Instagram-removebg.png" alt="Instagram"></a>
@@ -116,3 +147,4 @@
 		<p>© Copyright 2024 Hayley Peters</p>
 	</footer>
 </body>
+</html>

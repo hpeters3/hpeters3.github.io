@@ -37,7 +37,6 @@
 	</header>
 	<main>
 		<ul>
-			<li><a href="inventory.php">Current Inventory</a></li>
 			<li><a href="post.php">Update Inventory</a></li>
 		</ul>
 
@@ -49,9 +48,6 @@
 
             	<div>
                 	<p><?= $row['author'] ?></p>
-                	<p><?= $row['description'] ?></p>
-                	<p><?= $row['genre'] ?></p>
-                	<p><?= $row['stock'] ?></p>
                 	<p><?= $row['price'] ?></p>
             	</div>
             </div>
