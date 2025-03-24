@@ -1,6 +1,7 @@
 <?php
 
 	require('connect.php');
+	require('authenticate.php');
 
 	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 	$query = "SELECT id FROM book_inventory WHERE id =:id";
@@ -21,11 +22,11 @@
 		header("Location: inventory.php");
 		exit;
 	}
-	else if($_POST && (empty($_POST['title']) || empty($_POST['author']) || empty($_POST['description']) || empty($_POST['genre']) || empty($_POST['stock']) || empty($_POST['price'])))
+	else if($_POST && (empty($_POST['title']) || empty($_POST['author']) || empty($_POST['description']) || empty($_POST['genre']) || empty($_POST['stock']) || empty($_POST['price']) || empty($_POST['image_alt'])))
 	{
 		$display = false;
 	}
-	else if($_POST && isset($_POST['title']) && isset($_POST['author']) && isset($_POST['description']) && isset($_POST['genre']) && isset($_POST['stock']) && isset($_POST['price']) && isset($_POST['id']))
+	else if($_POST && isset($_POST['title']) && isset($_POST['author']) && isset($_POST['description']) && isset($_POST['genre']) && isset($_POST['stock']) && isset($_POST['price']) && isset($_POST['id']) && isset($_POST['image_alt']))
 	{
 		$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -33,8 +34,9 @@
 		$genre = filter_input(INPUT_POST, 'genre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$stock = filter_input(INPUT_POST, 'stock', FILTER_SANITIZE_NUMBER_INT);
 		$price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$image_alt = filter_input(INPUT_POST, 'image_alt', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-		$query = "UPDATE book_inventory SET title = :title, author = :author, description = :description, genre = :genre, stock = :stock, price = :price WHERE id = :id";
+		$query = "UPDATE book_inventory SET title = :title, author = :author, description = :description, genre = :genre, stock = :stock, price = :price, image_alt = :image_alt WHERE id = :id";
 		$statement = $db -> prepare($query);
 		$statement->bindValue(':title', $title);
 		$statement->bindValue(':author', $author);
@@ -42,6 +44,7 @@
 		$statement->bindValue(':genre', $genre);
 		$statement->bindValue(':stock', $stock);
 		$statement->bindValue(':price', $price);
+		$statement->bindvalue(':image_alt', $image_alt);
 		$statement->bindValue(':id', $id, PDO::PARAM_INT);
 		$statement->execute();
 
@@ -112,6 +115,9 @@
 
 						<p><label for="price">Price</label>
 						<input id="price" name="price" value="<?=$post['price']?>"></p>
+
+						<p><label for="image_alt">Image Alt</label>
+						<input id="image_alt" name="image_alt" value="<?=$post['image_alt']?>"></p>
 					</fieldset>
 					<p><input id="buttons" type="submit" value="Update"></p>
 				</form>

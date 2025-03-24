@@ -1,21 +1,18 @@
 <?php
+    require('connect.php');
 
-	require('connect.php');
-	require('authenticate.php');
-
-	$query = "SELECT * FROM book_inventory ORDER BY id DESC";
-	$statement = $db->prepare($query);
-	$statement->execute();
+    $query = "SELECT * FROM book_inventory ORDER BY id DESC";
+    $statement = $db->prepare($query);
+    $statement->execute();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Parallel Inventory</title>
+	<title>Parallel Products</title>
 	<link type="text/css" rel="stylesheet" href="style.css">
-	<link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
@@ -31,32 +28,26 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="products.php">Products</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="inventory.php">Inventory</a></li>
             </ul>
         </nav>
 	</header>
-	<main>
-		<ul>
-			<li><a href="post.php">Update Inventory</a></li>
-		</ul>
 
-		<?php while($row = $statement->fetch()):?>
-			<div class="book">
-            	<p><a href = "show.php?id=<?=$row['id']?>"><?=$row['title']?></a></p>
-            	<a href = "edit.php?id=<?=$row['id']?>">Edit</a>
-
-            	<div>
-                	<p><?= $row['author'] ?></p>
-                	<p><?= $row['description'] ?></p>
-                	<p><?= $row['stock'] ?></p>
-                	<p><?= $row['price'] ?></p>
-                	<p><?= $row['image_alt'] ?></p>
-            	</div>
-            </div>
-        <?php endwhile?>
-        
-	</main>
-	<footer>
+    <main>
+        <h2 id="selection">Our selection of special edition books:</h2>
+        <section id="products">
+            <?php while($row = $statement->fetch()):?>
+                <div>
+                    <img src="Images/<?=$row['title']?>.jpg" alt="<?=$row['image_alt']?>">
+                    <h4><?=$row['title']?></h4>
+                    <p><?=$row['author']?></p>
+                    <p><?=$row['price']?></p>
+                    <p><a href="display.php?id=<?=$row['id']?>">See More</a></p>
+                </div>
+            <?php endwhile?>
+        </section>
+    </main>
+    
+    <footer>
 		<a href="https://www.facebook.com/" target="_blank"><img src="Images/Facebook-removebg.png" alt="Facebook"></a>
 		<a href="https://www.instagram.com/" target="_blank"><img src="Images/Instagram-removebg.png" alt="Instagram"></a>
 		<a href="https://www.pinterest.com/" target="_blank"><img src="Images/Pintrest-removebg.png" alt="Pinterest"></a>
@@ -66,7 +57,7 @@
 		<nav id="footernav">
 			<ul>
 				<li><a href="index.html">Home</a></li>
-				<li><a href="products.php">Products</a></li>
+				<li><a href="php.html">Products</a></li>
 				<li><a href="contact.html">Contact Us</a></li>
                 <li><a href="inventory.php">Inventory</a></li>
 			</ul>

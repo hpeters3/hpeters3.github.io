@@ -44,9 +44,8 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
+                <li><a href="products.php">Products</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="inventory.php">Inventory</a></li>
             </ul>
         </nav>
 	</header>
@@ -55,7 +54,6 @@
 		<?php if($id):?>
 			<div>
 				<h2><?=$post['title']?></h2>
-				<a href = "edit.php?id=<?=$post['id']?>">Edit</a></p>
 				<div>
         			<p><?= $post['author'] ?></p>
         			<p><?= $post['description'] ?></p>
@@ -79,7 +77,7 @@
 		<nav id="footernav">
 			<ul>
 				<li><a href="index.html">Home</a></li>
-				<li><a href="products.html">Products</a></li>
+				<li><a href="products.php">Products</a></li>
 				<li><a href="contact.html">Contact Us</a></li>
                 <li><a href="inventory.php">Inventory</a></li>
 			</ul>

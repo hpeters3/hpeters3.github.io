@@ -1,11 +1,12 @@
 <?php
 
 	require('connect.php');
+	require('authenticate.php');
 
 	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 	$id = true;
 
-	if($_POST && !empty($_POST['title']) && !empty($_POST['author']) && !empty($_POST['description']) && !empty($_POST['genre']) && !empty($_POST['stock']) && !empty($_POST['price']))
+	if($_POST && !empty($_POST['title']) && !empty($_POST['author']) && !empty($_POST['description']) && !empty($_POST['genre']) && !empty($_POST['stock']) && !empty($_POST['price']) && !empty($_POST['image_alt']))
 	{
 		$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -13,8 +14,9 @@
 		$genre = filter_input(INPUT_POST, 'genre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$stock = filter_input(INPUT_POST, 'stock', FILTER_SANITIZE_NUMBER_INT);
 		$price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$image_alt = filter_input(INPUT_POST, 'image_alt', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-		$query = "INSERT INTO book_inventory (title, author, description, genre, stock, price) VALUES (:title, :author, :description, :genre, :stock, :price)";
+		$query = "INSERT INTO book_inventory (title, author, description, genre, stock, price, image_alt) VALUES (:title, :author, :description, :genre, :stock, :price, :image_alt)";
 		$statement = $db -> prepare($query);
 		$statement->bindValue(':title', $title);
 		$statement->bindValue(':author', $author);
@@ -22,12 +24,13 @@
 		$statement->bindValue(':genre', $genre);
 		$statement->bindValue(':stock', $stock);
 		$statement->bindValue(':price', $price);
+		$statement->bindValue(':image_alt', $image_alt);
 		$statement->execute();
 
 		header("Location: inventory.php");
 		exit;
 	}
-	else if($_POST && (empty($_POST['title']) || empty($_POST['author']) || empty($_POST['description']) || empty($_POST['genre']) || empty($_POST['stock']) || empty($_POST['price'])))
+	else if($_POST && (empty($_POST['title']) || empty($_POST['author']) || empty($_POST['description']) || empty($_POST['genre']) || empty($_POST['stock']) || empty($_POST['price']) || empty($_POST['image_alt'])))
 	{
 		$id = false;
 	}
@@ -83,6 +86,9 @@
 
 						<p><label for="price">Price</label>
 						<input id="price" name="price"></p>
+
+						<p><label for="image_alt">Image Alt</label>
+						<input id="image_alt" name="image_alt"></p>
 					</fieldset>
 
 					<div id="buttons">
