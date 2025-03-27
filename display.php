@@ -51,20 +51,23 @@
 	</header>
 
 	<main>
-		<?php if($id):?>
-			<div>
-				<h2><?=$post['title']?></h2>
+		<section id="products">
+			<?php if($id):?>
 				<div>
-        			<p><?= $post['author'] ?></p>
-        			<p><?= $post['description'] ?></p>
-        			<p><?= $post['genre'] ?></p>
-        			<p><?= $post['stock'] ?></p>
-        			<p><?= $post['price'] ?></p>
+					<h2><?=$post['title']?></h2>
+					<div>
+						<img src="<?=$post['image'] ?>" alt="<?=$post['image_alt']?>"></img>
+        				<p><?=$post['author'] ?></p>
+        				<p><?=$post['description'] ?></p>
+        				<p><?=$post['genre'] ?></p>
+        				<p><?=$post['stock'] ?></p>
+        				<p><?=$post['price'] ?></p>
+        			</div>
         		</div>
-        	</div>
-        <?php else:
-        	header("Location: inventory.php");
-        endif?>
+        	<?php else:
+        		header("Location: inventory.php");
+        	endif?>
+    	</section>
 	</main>
 
 	<footer>

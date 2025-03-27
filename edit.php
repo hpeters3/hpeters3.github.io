@@ -28,6 +28,46 @@
 	}
 	else if($_POST && isset($_POST['title']) && isset($_POST['author']) && isset($_POST['description']) && isset($_POST['genre']) && isset($_POST['stock']) && isset($_POST['price']) && isset($_POST['id']) && isset($_POST['image_alt']))
 	{
+
+		$upload = isset($_FILES['image']) && ($_FILES['image']['error'] === 0);
+		$image = '';
+	
+		if($upload)
+		{
+			function file_path($filename)
+			{
+				$current_folder = dirname(__FILE__);
+				$broken_path = [$current_folder, 'uploads', basename($filename)];
+				return join(DIRECTORY_SEPARATOR, $broken_path);
+			}
+
+			function file_image($temp_path, $new_path)
+			{
+				$allowed_type = ['image/jpg', 'image/jpeg', 'image/png'];
+				$allowed_extension = ['jpg', 'png'];
+				$extension = pathinfo($new_path, PATHINFO_EXTENSION);
+				$type = mime_content_type($temp_path);
+				$extension_valid = in_array($extension, $allowed_extension);
+				$type_valid = in_array($type, $allowed_type);
+				return $extension_valid && $type_valid;
+			}
+
+			$filename = $_FILES['image']['name'];
+			$temp_path = $_FILES['image']['tmp_name'];
+			$new_path = file_path($filename);
+	
+			if(file_image($temp_path, $new_path))
+			{
+				move_uploaded_file($temp_path, $new_path);
+				//resizing goes here
+				$image = 'uploads/' . basename($new_path);
+			}
+		}
+		elseif(!$uploads)
+		{
+			$image = 'uploads/' . $_POST['image']; //eventually make image remember what it previous was.
+		}
+
 		$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -36,7 +76,7 @@
 		$price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$image_alt = filter_input(INPUT_POST, 'image_alt', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-		$query = "UPDATE book_inventory SET title = :title, author = :author, description = :description, genre = :genre, stock = :stock, price = :price, image_alt = :image_alt WHERE id = :id";
+		$query = "UPDATE book_inventory SET title = :title, author = :author, description = :description, genre = :genre, stock = :stock, price = :price, image_alt = :image_alt, image = :image WHERE id = :id";
 		$statement = $db -> prepare($query);
 		$statement->bindValue(':title', $title);
 		$statement->bindValue(':author', $author);
@@ -45,6 +85,7 @@
 		$statement->bindValue(':stock', $stock);
 		$statement->bindValue(':price', $price);
 		$statement->bindvalue(':image_alt', $image_alt);
+		$statement->bindValue(':image', $image);
 		$statement->bindValue(':id', $id, PDO::PARAM_INT);
 		$statement->execute();
 
@@ -94,7 +135,7 @@
 	<main id="contact">
 		<div id="contact_info">
 			<?php if($id && $display):?>
-				<form method="post">
+				<form method="post" enctype="multipart/form-data">
 					<input type="hidden" name="id" value="<?= $post['id'] ?>">
 					<fieldset>
 						<legend>Update Book</legend>
@@ -116,6 +157,9 @@
 						<p><label for="price">Price</label>
 						<input id="price" name="price" value="<?=$post['price']?>"></p>
 
+						<p><label for="image">Image</label>
+						<input type="file" id="image" name="image" src="<?=$post['image']?>"></p>
+
 						<p><label for="image_alt">Image Alt</label>
 						<input id="image_alt" name="image_alt" value="<?=$post['image_alt']?>"></p>
 					</fieldset>
@@ -128,7 +172,9 @@
 				</form>
 			<?php elseif($display == false):
 				echo "Make sure you have something in all the fields.";
-			else:
+			elseif ($error):?>
+        		<p>Error number: <?= $_FILES['image']['error'];?></p>
+			<?php else:
 				header("Location: inventory.php");
 			endif ?>
 		</div>

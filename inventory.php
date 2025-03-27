@@ -42,15 +42,17 @@
 
 		<?php while($row = $statement->fetch()):?>
 			<div class="book">
-            	<p><a href = "show.php?id=<?=$row['id']?>"><?=$row['title']?></a></p>
+            	<p><?=$row['title']?></p>
             	<a href = "edit.php?id=<?=$row['id']?>">Edit</a>
 
             	<div>
+            		<img src="<?= $row['image']?>">
+            		<p><?= $row['image_alt'] ?></p>
                 	<p><?= $row['author'] ?></p>
                 	<p><?= $row['description'] ?></p>
+                	<p><?= $row['genre'] ?></p>
                 	<p><?= $row['stock'] ?></p>
                 	<p><?= $row['price'] ?></p>
-                	<p><?= $row['image_alt'] ?></p>
             	</div>
             </div>
         <?php endwhile?>

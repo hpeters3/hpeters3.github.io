@@ -37,7 +37,7 @@
         <section id="products">
             <?php while($row = $statement->fetch()):?>
                 <div>
-                    <img src="Images/<?=$row['title']?>.jpg" alt="<?=$row['image_alt']?>">
+                    <img src="<?=$row['image']?>" alt="<?=$row['image_alt']?>">
                     <h4><?=$row['title']?></h4>
                     <p><?=$row['author']?></p>
                     <p><?=$row['price']?></p>

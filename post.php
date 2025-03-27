@@ -3,11 +3,45 @@
 	require('connect.php');
 	require('authenticate.php');
 
-	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 	$id = true;
 
 	if($_POST && !empty($_POST['title']) && !empty($_POST['author']) && !empty($_POST['description']) && !empty($_POST['genre']) && !empty($_POST['stock']) && !empty($_POST['price']) && !empty($_POST['image_alt']))
 	{
+		$upload = isset($_FILES['image']) && ($_FILES['image']['error'] === 0);
+		$image = '';
+	
+		if($upload)
+		{
+			function file_path($filename)
+			{
+				$current_folder = dirname(__FILE__);
+				$broken_path = [$current_folder, 'uploads', basename($filename)];
+				return join(DIRECTORY_SEPARATOR, $broken_path);
+			}
+
+			function file_image($temp_path, $new_path)
+			{
+				$allowed_type = ['image/jpg', 'image/jpeg', 'image/png'];
+				$allowed_extension = ['jpg', 'png'];
+				$extension = pathinfo($new_path, PATHINFO_EXTENSION);
+				$type = mime_content_type($temp_path);
+				$extension_valid = in_array($extension, $allowed_extension);
+				$type_valid = in_array($type, $allowed_type);
+				return $extension_valid && $type_valid;
+			}
+
+			$filename = $_FILES['image']['name'];
+			$temp_path = $_FILES['image']['tmp_name'];
+			$new_path = file_path($filename);
+	
+			if(file_image($temp_path, $new_path))
+			{
+				move_uploaded_file($temp_path, $new_path);
+				//resizing goes here
+				$image = 'uploads/' . basename($new_path);
+			}
+		}
+
 		$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -16,7 +50,7 @@
 		$price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$image_alt = filter_input(INPUT_POST, 'image_alt', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-		$query = "INSERT INTO book_inventory (title, author, description, genre, stock, price, image_alt) VALUES (:title, :author, :description, :genre, :stock, :price, :image_alt)";
+		$query = "INSERT INTO book_inventory (title, author, description, genre, stock, price, image_alt, image) VALUES (:title, :author, :description, :genre, :stock, :price, :image_alt, :image)";
 		$statement = $db -> prepare($query);
 		$statement->bindValue(':title', $title);
 		$statement->bindValue(':author', $author);
@@ -25,6 +59,7 @@
 		$statement->bindValue(':stock', $stock);
 		$statement->bindValue(':price', $price);
 		$statement->bindValue(':image_alt', $image_alt);
+		$statement->bindValue(':image', $image);
 		$statement->execute();
 
 		header("Location: inventory.php");
@@ -66,7 +101,7 @@
 	<main id="contact">
 		<div id="contact_info">
 			<?php if ($id): ?>
-				<form method="post" action="post.php">
+				<form method="post" action="post.php" enctype="multipart/form-data">
 					<fieldset>
 						<legend>New Book</legend>
 						<p><label for="title">Title</label>
@@ -87,15 +122,19 @@
 						<p><label for="price">Price</label>
 						<input id="price" name="price"></p>
 
+						<p><label for="image">Image - jpgs & pngs only</label>
+						<input type="file" id="image" name="image"></p>
+
 						<p><label for="image_alt">Image Alt</label>
 						<input id="image_alt" name="image_alt"></p>
 					</fieldset>
 
 					<div id="buttons">
 						<p><input type="submit" value="Submit"></p>
-						<p><input type="reset" value="Reset"></p>
 					</div>
 				</form>
+			<?php elseif ($error):?>
+        		<p>Error number: <?= $_FILES['image']['error'];?></p>
 			<?php else:
 				echo "You missed something, make sure you fill in all the fields.";
 			endif ?>
