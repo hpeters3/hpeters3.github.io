@@ -2,6 +2,8 @@
 
 	require('connect.php');
 	require('authenticate.php');
+	require '\XAMPP\htdocs\Web_Dev_2\Module 6\Project\hpeters3.github.io\php-image-resize-master\lib\ImageResize.php';
+	require '\XAMPP\htdocs\Web_Dev_2\Module 6\Project\hpeters3.github.io\php-image-resize-master\lib\ImageResizeException.php';
 
 	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 	$query = "SELECT id FROM book_inventory WHERE id =:id";
@@ -17,6 +19,20 @@
 		$query = "DELETE FROM book_inventory WHERE id = :id";
 		$statement = $db->prepare($query);
 		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+
+		header("Location: inventory.php");
+		exit;
+	}
+	else if (isset($_POST['delete_image']))
+	{
+		$local_image = $_POST['delete_image'];
+		unlink($local_image);
+
+		$image = $_POST['delete_image'];
+		$query = "UPDATE book_inventory SET image = NULL WHERE image = :image";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':image', $image, PDO::PARAM_LOB);
 		$statement->execute();
 
 		header("Location: inventory.php");
@@ -59,13 +75,16 @@
 			if(file_image($temp_path, $new_path))
 			{
 				move_uploaded_file($temp_path, $new_path);
-				//resizing goes here
 				$image = 'uploads/' . basename($new_path);
+
+				//$image = new \Gumlet\ImageResize($new_path);
+				//$image->resize(250, 375, $allow_enlarge = true);
+				//$image->save($_POST['title'] . 'jpg');
 			}
 		}
 		elseif(!$uploads)
 		{
-			$image = 'uploads/' . $_POST['image']; //eventually make image remember what it previous was.
+			$image = $_POST['current_image'];
 		}
 
 		$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -126,7 +145,7 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
+                <li><a href="products.php">Products</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="inventory.php">Inventory</a></li>
             </ul>
@@ -156,9 +175,18 @@
 
 						<p><label for="price">Price</label>
 						<input id="price" name="price" value="<?=$post['price']?>"></p>
+					</fieldset>
 
+					<fieldset>
 						<p><label for="image">Image</label>
-						<input type="file" id="image" name="image" src="<?=$post['image']?>"></p>
+						<img src="<?=$post['image']?>">
+						<input type="file" id="image" name="image">
+
+						<?php if($post['image']):?>
+							<button id="buttons" name="delete_image" value="<?=$post['image']?>">Delete Image</button></p>
+						<?php endif?>
+
+						<input type="hidden" name="current_image" value="<?=$post['image']?>">
 
 						<p><label for="image_alt">Image Alt</label>
 						<input id="image_alt" name="image_alt" value="<?=$post['image_alt']?>"></p>

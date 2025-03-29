@@ -56,7 +56,9 @@
 				<div>
 					<h2><?=$post['title']?></h2>
 					<div>
-						<img src="<?=$post['image'] ?>" alt="<?=$post['image_alt']?>"></img>
+						<?php if($post['image']):?>
+                        	<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
+                    	<?php endif?>
         				<p><?=$post['author'] ?></p>
         				<p><?=$post['description'] ?></p>
         				<p><?=$post['genre'] ?></p>

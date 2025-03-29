@@ -3,6 +3,9 @@
 	require('connect.php');
 	require('authenticate.php');
 
+	require '\XAMPP\htdocs\Web_Dev_2\Module 6\Project\hpeters3.github.io\php-image-resize-master\lib\ImageResize.php';
+	require '\XAMPP\htdocs\Web_Dev_2\Module 6\Project\hpeters3.github.io\php-image-resize-master\lib\ImageResizeException.php';
+
 	$id = true;
 
 	if($_POST && !empty($_POST['title']) && !empty($_POST['author']) && !empty($_POST['description']) && !empty($_POST['genre']) && !empty($_POST['stock']) && !empty($_POST['price']) && !empty($_POST['image_alt']))
@@ -37,8 +40,11 @@
 			if(file_image($temp_path, $new_path))
 			{
 				move_uploaded_file($temp_path, $new_path);
-				//resizing goes here
 				$image = 'uploads/' . basename($new_path);
+
+				//$image = new \Gumlet\ImageResize($new_path);
+				//$image->resize(250, 375);
+				//$image->save($_POST['title'] . 'jpg');
 			}
 		}
 
@@ -92,7 +98,7 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
+                <li><a href="products.php">Products</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="inventory.php">Inventory</a></li>
             </ul>

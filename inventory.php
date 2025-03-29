@@ -44,11 +44,14 @@
 			<div class="book">
             	<p><?=$row['title']?></p>
             	<a href = "edit.php?id=<?=$row['id']?>">Edit</a>
-
             	<div>
-            		<img src="<?= $row['image']?>">
+            		<?php if($row['image']):?>
+                        <img src="<?=$row['image']?>">
+                    <?php else:?>
+                       	<p>This book has no image.</p>
+                    <?php endif?>
             		<p><?= $row['image_alt'] ?></p>
-                	<p><?= $row['author'] ?></p>
+                	<p>By <?= $row['author'] ?></p>
                 	<p><?= $row['description'] ?></p>
                 	<p><?= $row['genre'] ?></p>
                 	<p><?= $row['stock'] ?></p>
