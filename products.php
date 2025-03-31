@@ -4,6 +4,10 @@
     $query = "SELECT * FROM book_inventory ORDER BY id DESC";
     $statement = $db->prepare($query);
     $statement->execute();
+    //$row = $statement->fetch();
+    //$seo = $row['title'];
+    //$seo = str_replace(" ", "-", $seo);
+    //$seo = strtolower($seo);
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +47,7 @@
                     <h4><?=$row['title']?></h4>
                     <p><?=$row['author']?></p>
                     <p><?=$row['price']?></p>
-                    <p><a href="display.php?id=<?=$row['id']?>">See More</a></p>
+                    <p><a href="display.php?id=<?=$row['id']?>">See More</a></p> <!-- . "&p=" . $seo-->
                 </div>
             <?php endwhile?>
         </section>

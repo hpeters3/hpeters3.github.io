@@ -15,6 +15,12 @@
 
 	if(isset($_POST['delete']))
 	{
+		if(isset($_POST['delete_image']))
+		{
+			$local_image = $_POST['delete_image'];
+			unlink($local_image);
+		}
+
 		$id = filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT);
 		$query = "DELETE FROM book_inventory WHERE id = :id";
 		$statement = $db->prepare($query);
@@ -53,14 +59,14 @@
 			function file_path($filename)
 			{
 				$current_folder = dirname(__FILE__);
-				$broken_path = [$current_folder, 'uploads', basename($filename)];
+				$broken_path = [$current_folder, 'uploads_original', basename($filename)];
 				return join(DIRECTORY_SEPARATOR, $broken_path);
 			}
 
 			function file_image($temp_path, $new_path)
 			{
-				$allowed_type = ['image/jpg', 'image/jpeg', 'image/png'];
-				$allowed_extension = ['jpg', 'png'];
+				$allowed_type = ['image/jpg', 'image/jpeg', 'image/png', 'images/JPG', 'images/JPEG'];
+				$allowed_extension = ['jpg', 'png', 'JPG'];
 				$extension = pathinfo($new_path, PATHINFO_EXTENSION);
 				$type = mime_content_type($temp_path);
 				$extension_valid = in_array($extension, $allowed_extension);
@@ -75,11 +81,13 @@
 			if(file_image($temp_path, $new_path))
 			{
 				move_uploaded_file($temp_path, $new_path);
-				$image = 'uploads/' . basename($new_path);
+				$image = 'uploads_original/' . basename($new_path);
+				$resized_path = 'uploads/' . $_POST['title'] . '.jpg';
 
-				//$image = new \Gumlet\ImageResize($new_path);
-				//$image->resize(250, 375, $allow_enlarge = true);
-				//$image->save($_POST['title'] . 'jpg');
+				$resized = new \Gumlet\ImageResize($new_path);
+				$resized->resize(250, 375, true);
+				$resized->save($resized_path);
+				$image = $resized_path;
 			}
 		}
 		elseif(!$uploads)
@@ -195,8 +203,8 @@
 				</form>
 
 				<form method="post" id="buttons">
-					<input type="hidden" name="delete" value="<?=$post['id']?>">
-					<button type="submit">Delete</button>
+					<input type="hidden" name="delete_image" value="<?=$post['image']?>">
+					<button name="delete" value="<?=$post['id']?>">Delete</button>
 				</form>
 			<?php elseif($display == false):
 				echo "Make sure you have something in all the fields.";
