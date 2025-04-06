@@ -40,6 +40,7 @@
 	<main>
 		<ul>
 			<li><a href="post.php">Update Inventory</a></li>
+			<li><a href="users.php">Users</a></li>
 		</ul>
 
 		<?php while($row = $statement->fetch()):?>

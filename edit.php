@@ -50,7 +50,6 @@
 	}
 	else if($_POST && isset($_POST['title']) && isset($_POST['author']) && isset($_POST['description']) && isset($_POST['genre']) && isset($_POST['stock']) && isset($_POST['price']) && isset($_POST['id']) && isset($_POST['image_alt']))
 	{
-
 		$upload = isset($_FILES['image']) && ($_FILES['image']['error'] === 0);
 		$image = '';
 	

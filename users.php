@@ -1,33 +1,11 @@
 <?php
 
 	require('connect.php');
+	require('authenticate.php');
 
-	$id = true;
-
-	if($_POST && strcmp($_POST['password'], $_POST['repassword']) == 0)
-	{
-		if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
-		{
-			$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-			$password = $_POST['password']; //will hash and salt later
-			$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-	
-			$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
-			$statement = $db -> prepare($query);
-			$statement->bindValue(':username', $username);
-			$statement->bindValue(':password', $password);
-			$statement->bindValue(':email', $email);
-			$statement->execute();
-	
-			header("Location: index.html");
-			exit;
-		}
-		else if($_POST && (empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password'])))
-		{
-			$id = false;
-		}
-	}
-
+	$query = "SELECT * FROM users ORDER BY id DESC";
+	$statement = $db->prepare($query);
+	$statement->execute();
 ?>
 
 <!DOCTYPE html>
@@ -54,32 +32,26 @@
                 <li><a href="products.php">Products</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="login.php">Account</a></li>
-                
+                <li><a href="inventory.php">Inventory</a></li>
             </ul>
         </nav>
 	</header>
-	<main id="contact">
-		<div id="contact_info">
-			<?php if ($id): ?>
-				<form method="post">
-					<label for="username">Username:</label>
-					<input id="username" name="username">
-					<label for="email">Email:</label>
-					<input id="email" name="email">
-					<label for="password">Password:</label>
-					<input id="password" name="password" type="password">
-					<label for="repassword">Re-enter password:</label>
-					<input id="repassword" name="repassword" type="password">
-					<input id="buttons" type="submit" value="Sign Up">
-	
-					<?php if($_POST && strcmp($_POST['password'], $_POST['repassword']) != 0):?>
-						<p>Your passwords do not match. Try again.</p>
-					<?php endif?>
-				</form>
-			<?php else:
-				echo "You missed something, make sure you fill in all the fields.";
-			endif ?>
-		</div>
+	<main>
+		<ul>
+			<li><a href="signup.php">Add User</a></li>
+		</ul>
+
+		<?php while($row = $statement->fetch()):?>
+			<div class="book">
+            	<a href = "update_users.php?id=<?=$row['id']?>">Edit</a>
+            	<div>
+            		<p>Username: <?=$row['username']?></p>
+            		<p>Email: <?= $row['email'] ?></p>
+                	<p>Password: <?= $row['password'] ?></p>
+            	</div>
+            </div>
+        <?php endwhile?>
+        
 	</main>
 	<footer>
 		<a href="https://www.facebook.com/" target="_blank"><img src="Images/Facebook-removebg.png" alt="Facebook"></a>
@@ -103,3 +75,4 @@
 		
 	</footer>
 </body>
+</html>

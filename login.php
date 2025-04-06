@@ -2,29 +2,6 @@
 
 	require('connect.php');
 
-	$id = true;
-
-	if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
-	{
-		$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-		$password = $_POST['password']; //will hash and salt later
-		$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS); //maybe shouldn't filter like this?
-
-		$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
-		$statement = $db -> prepare($query);
-		$statement->bindValue(':username', $username);
-		$statement->bindValue(':password', $password);
-		$statement->bindValue(':email', $email);
-		$statement->execute();
-
-		header("Location: index.html");
-		exit;
-	}
-	else if($_POST && (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['email'])))
-	{
-		$id = false;
-	}
-
 ?>
 
 <!DOCTYPE html>
@@ -56,17 +33,21 @@
 	</header>
 	<main id="contact">
 		<div id="contact_info">
-			<form method="post">
-				<label for="username">Username:</label>
-				<input id="username" name="username">
-				<label for="email">Email:</label>
-				<input id="email" name="email">
-				<label for="password">Password:</label>
-				<input id="password" name="password" type="password">
-				
-				<input id="buttons" type="submit" value="Login">
-				<button id="buttons"><a href="signup.php">Sign Up</button>
-			</form>
+			<?php if ($id): ?>
+				<form method="post">
+					<label for="username">Username:</label>
+					<input id="username" name="username">
+					<label for="email">Email:</label>
+					<input id="email" name="email">
+					<label for="password">Password:</label>
+					<input id="password" name="password" type="password">
+					
+					<input id="buttons" type="submit" value="Login">
+					<button id="buttons"><a href="signup.php">Sign Up</button>
+				</form>
+			<?php else:
+				echo "You missed something, make sure you fill in all the fields.";
+			endif ?>
 		</div>
 	</main>
 	<footer>
