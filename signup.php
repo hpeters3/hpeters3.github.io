@@ -2,24 +2,24 @@
 
 	require('connect.php');
 
-	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-	$query = "SELECT id FROM book_inventory WHERE id = :id";
-	$statement = $db->prepare($query);
-	$statement->bindValue(':id', $id, PDO::PARAM_INT);
-	$statement->execute();
-	$exists = $statement->rowCount() > 0;
-
-	if(isset($_GET['id']) && $exists == true)
+	if($_POST && strcmp($_POST['password'], $_POST['repassword']) == 0)
 	{
-		$query = "SELECT * FROM book_inventory WHERE id = :id";
-		$statement = $db->prepare($query);
-		$statement->bindValue(':id', $id, PDO::PARAM_INT);
-		$statement->execute();
-		$post = $statement->fetch();
-	}
-	else
-	{
-		$id = false;
+		if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
+		{
+			$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+			$password = $_POST['password']; //will hash and salt later
+			$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS); //maybe shouldn't filter like this?
+	
+			$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
+			$statement = $db -> prepare($query);
+			$statement->bindValue(':username', $username);
+			$statement->bindValue(':password', $password);
+			$statement->bindValue(':email', $email);
+			$statement->execute();
+	
+			header("Location: index.html");
+			exit;
+		}
 	}
 ?>
 
@@ -47,32 +47,29 @@
                 <li><a href="products.php">Products</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="login.php">Account</a></li>
+                
             </ul>
         </nav>
 	</header>
+	<main id="contact">
+		<div id="contact_info">
+			<form method="post">
+				<label for="username">Username:</label>
+				<input id="username" name="username">
+				<label for="email">Email:</label>
+				<input id="email" name="email">
+				<label for="password">Password:</label>
+				<input id="password" name="password" type="password">
+				<label for="repassword">Re-enter password:</label>
+				<input id="repassword" name="repassword" type="password">
+				<input id="buttons" type="submit" value="Sign Up">
 
-	<main>
-		<section id="products">
-			<?php if($id):?>
-				<div>
-					<h2><?=$post['title']?></h2>
-					<div>
-						<?php if($post['image']):?>
-                        	<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
-                    	<?php endif?>
-        				<p><?=$post['author'] ?></p>
-        				<p><?=$post['description'] ?></p>
-        				<p><?=$post['genre'] ?></p>
-        				<p><?=$post['stock'] ?></p>
-        				<p><?=$post['price'] ?></p>
-        			</div>
-        		</div>
-        	<?php else:
-        		header("Location: inventory.php");
-        	endif?>
-    	</section>
+				<?php if($_POST && strcmp($_POST['password'], $_POST['repassword']) != 0):?>
+					<p>Your passwords do not match. Try again.</p>
+				<?php endif?>
+			</form>
+		</div>
 	</main>
-
 	<footer>
 		<a href="https://www.facebook.com/" target="_blank"><img src="Images/Facebook-removebg.png" alt="Facebook"></a>
 		<a href="https://www.instagram.com/" target="_blank"><img src="Images/Instagram-removebg.png" alt="Instagram"></a>
@@ -95,4 +92,3 @@
 		
 	</footer>
 </body>
-</html>

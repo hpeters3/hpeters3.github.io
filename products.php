@@ -32,6 +32,7 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="products.php">Products</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.php">Account</a></li>
             </ul>
         </nav>
 	</header>
@@ -65,6 +66,7 @@
 				<li><a href="index.html">Home</a></li>
 				<li><a href="php.html">Products</a></li>
 				<li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.php">Account</a></li>
                 <li><a href="inventory.php">Inventory</a></li>
 			</ul>
 		</nav>

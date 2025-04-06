@@ -2,25 +2,29 @@
 
 	require('connect.php');
 
-	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-	$query = "SELECT id FROM book_inventory WHERE id = :id";
-	$statement = $db->prepare($query);
-	$statement->bindValue(':id', $id, PDO::PARAM_INT);
-	$statement->execute();
-	$exists = $statement->rowCount() > 0;
+	$id = true;
 
-	if(isset($_GET['id']) && $exists == true)
+	if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
 	{
-		$query = "SELECT * FROM book_inventory WHERE id = :id";
-		$statement = $db->prepare($query);
-		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$password = $_POST['password']; //will hash and salt later
+		$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS); //maybe shouldn't filter like this?
+
+		$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
+		$statement = $db -> prepare($query);
+		$statement->bindValue(':username', $username);
+		$statement->bindValue(':password', $password);
+		$statement->bindValue(':email', $email);
 		$statement->execute();
-		$post = $statement->fetch();
+
+		header("Location: index.html");
+		exit;
 	}
-	else
+	else if($_POST && (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['email'])))
 	{
 		$id = false;
 	}
+
 ?>
 
 <!DOCTYPE html>
@@ -50,29 +54,21 @@
             </ul>
         </nav>
 	</header>
-
-	<main>
-		<section id="products">
-			<?php if($id):?>
-				<div>
-					<h2><?=$post['title']?></h2>
-					<div>
-						<?php if($post['image']):?>
-                        	<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
-                    	<?php endif?>
-        				<p><?=$post['author'] ?></p>
-        				<p><?=$post['description'] ?></p>
-        				<p><?=$post['genre'] ?></p>
-        				<p><?=$post['stock'] ?></p>
-        				<p><?=$post['price'] ?></p>
-        			</div>
-        		</div>
-        	<?php else:
-        		header("Location: inventory.php");
-        	endif?>
-    	</section>
+	<main id="contact">
+		<div id="contact_info">
+			<form method="post">
+				<label for="username">Username:</label>
+				<input id="username" name="username">
+				<label for="email">Email:</label>
+				<input id="email" name="email">
+				<label for="password">Password:</label>
+				<input id="password" name="password" type="password">
+				
+				<input id="buttons" type="submit" value="Login">
+				<button id="buttons"><a href="signup.php">Sign Up</button>
+			</form>
+		</div>
 	</main>
-
 	<footer>
 		<a href="https://www.facebook.com/" target="_blank"><img src="Images/Facebook-removebg.png" alt="Facebook"></a>
 		<a href="https://www.instagram.com/" target="_blank"><img src="Images/Instagram-removebg.png" alt="Instagram"></a>
@@ -95,4 +91,3 @@
 		
 	</footer>
 </body>
-</html>
