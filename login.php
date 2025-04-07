@@ -1,6 +1,39 @@
 <?php
 
 	require('connect.php');
+	session_start();
+
+	$id = true;
+	$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$query = "SELECT username FROM users WHERE username = :username";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':username', $username, PDO::PARAM_STR);
+	$statement->execute();
+	$exists = $statement->rowCount() > 0;
+
+	if($_POST)
+	{
+		if(isset($_POST['username']) && $exists == true)
+		{
+			$query = "SELECT * FROM users WHERE username = :username";
+			$statement = $db->prepare($query);
+			$statement->bindValue(':username', $username, PDO::PARAM_STR);
+			$statement->execute();
+			$post = $statement->fetch();
+	
+			if($_POST && strcmp($_POST['password'], $post['password']) == 0 && strcmp($_POST['email'], $post['email']) == 0)
+			{
+				$_SESSION['user_id'] = $post['id'];
+				header("Location: products.php");
+				exit;
+			}
+		}
+		else
+		{
+			$id = false;
+		}
+	}
+	
 
 ?>
 
@@ -33,21 +66,22 @@
 	</header>
 	<main id="contact">
 		<div id="contact_info">
-			<?php if ($id): ?>
-				<form method="post">
-					<label for="username">Username:</label>
-					<input id="username" name="username">
-					<label for="email">Email:</label>
-					<input id="email" name="email">
-					<label for="password">Password:</label>
-					<input id="password" name="password" type="password">
-					
-					<input id="buttons" type="submit" value="Login">
-					<button id="buttons"><a href="signup.php">Sign Up</button>
-				</form>
-			<?php else:
-				echo "You missed something, make sure you fill in all the fields.";
-			endif ?>
+			<form method="post">
+				<label for="username">Username:</label>
+				<input id="username" name="username">
+				<label for="email">Email:</label>
+				<input id="email" name="email">
+				<label for="password">Password:</label>
+				<input id="password" name="password" type="password">
+				
+				<input id="buttons" type="submit" value="Login">
+				<button id="buttons"><a href="signup.php">Sign Up</a></button>
+				<?php if($_POST && $exists == false):?>
+					<p>You do not have an account. Please create one.</p>
+				<?php elseif($_POST && (strcmp($_POST['password'], $post['password']) != 0 || strcmp($_POST['email'], $post['email']) != 0)):?>
+					<p>Please enter the correct username and password.</p>
+				<?php endif?>
+			</form>
 		</div>
 	</main>
 	<footer>

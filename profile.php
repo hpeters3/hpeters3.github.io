@@ -1,8 +1,8 @@
 <?php
-    require('connect.php');
-    session_start();
+	require('connect.php');
+	session_start();
 
-    if(isset($_SESSION['user_id']))
+	if(isset($_SESSION['user_id']))
     {
         $id = $_SESSION['user_id'];
         $query = "SELECT * FROM users WHERE id =:id";
@@ -10,24 +10,24 @@
         $statement->bindValue(':id', $id, PDO::PARAM_INT);
         $statement->execute();
         $post = $statement->fetch();
+
+        echo print_r($_POST);
+
+        if(isset($_POST['log_out']))
+		{
+			session_destroy();
+			header("Location: index.html");
+			exit;
+		}
     }
-
-    $query = "SELECT * FROM book_inventory ORDER BY id DESC";
-    $statement = $db->prepare($query);
-    $statement->execute();
-    
-    //$row = $statement->fetch();
-    //$seo = $row['title'];
-    //$seo = str_replace(" ", "-", $seo);
-    //$seo = strtolower($seo);
+	
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Parallel Products</title>
+	<title>Profile</title>
 	<link type="text/css" rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
@@ -54,20 +54,10 @@
 	</header>
 
     <main>
-        <h2 id="selection">Our selection of special edition books:</h2>
-        <section id="products">
-            <?php while($row = $statement->fetch()):?>
-                <div>
-                    <?php if($row['image']):?>
-                        <img src="<?=$row['image']?>" alt="<?=$row['image_alt']?>">
-                    <?php endif?>
-                    <h4><?=$row['title']?></h4>
-                    <p><?=$row['author']?></p>
-                    <p><?=$row['price']?></p>
-                    <p><a href="display.php?id=<?=$row['id']?>">See More</a></p> <!-- . "&p=" . $seo-->
-                </div>
-            <?php endwhile?>
-        </section>
+    	<form method="post">
+    		<input type="hidden" name="log_out" value="log_out">
+    		<input id="buttons" type="submit" value="Log Out">
+    	</form>
     </main>
     
     <footer>
