@@ -3,38 +3,28 @@
 	require('connect.php');
 	session_start();
 
-	$id = true;
-	$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-	$query = "SELECT username FROM users WHERE username = :username";
+	$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+	$query = "SELECT email FROM users WHERE email = :email";
 	$statement = $db->prepare($query);
-	$statement->bindValue(':username', $username, PDO::PARAM_STR);
+	$statement->bindValue(':email', $email, PDO::PARAM_STR);
 	$statement->execute();
 	$exists = $statement->rowCount() > 0;
 
-	if($_POST)
+	if($_POST && isset($_POST['email']) && $exists == true)
 	{
-		if(isset($_POST['username']) && $exists == true)
+		$query = "SELECT * FROM users WHERE email = :email";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':email', $email, PDO::PARAM_STR);
+		$statement->execute();
+		$user = $statement->fetch();
+
+		if($_POST && strcmp($_POST['password'], $user['password']) == 0)
 		{
-			$query = "SELECT * FROM users WHERE username = :username";
-			$statement = $db->prepare($query);
-			$statement->bindValue(':username', $username, PDO::PARAM_STR);
-			$statement->execute();
-			$post = $statement->fetch();
-	
-			if($_POST && strcmp($_POST['password'], $post['password']) == 0 && strcmp($_POST['email'], $post['email']) == 0)
-			{
-				$_SESSION['user_id'] = $post['id'];
-				header("Location: products.php");
-				exit;
-			}
-		}
-		else
-		{
-			$id = false;
+			$_SESSION['user_id'] = $user['id'];
+			header("Location: index.php");
+			exit;
 		}
 	}
-	
-
 ?>
 
 <!DOCTYPE html>
@@ -53,34 +43,33 @@
 <body>
     <header id="head">
         <div>
-            <h1><a href="index.html">Parallel Reads</a></h1>
+            <h1><a href="index.php">Parallel Reads</a></h1>
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="products.php">Products</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="login.php">Account</a></li>
+                <li><a href="contact.php">Contact Us</a></li>
+                <li><a href="signup.php">Sign Up</a></li>
             </ul>
         </nav>
 	</header>
 	<main id="contact">
 		<div id="contact_info">
 			<form method="post">
-				<label for="username">Username:</label>
-				<input id="username" name="username">
 				<label for="email">Email:</label>
 				<input id="email" name="email">
 				<label for="password">Password:</label>
 				<input id="password" name="password" type="password">
-				
 				<input id="buttons" type="submit" value="Login">
-				<button id="buttons"><a href="signup.php">Sign Up</a></button>
+
 				<?php if($_POST && $exists == false):?>
 					<p>You do not have an account. Please create one.</p>
-				<?php elseif($_POST && (strcmp($_POST['password'], $post['password']) != 0 || strcmp($_POST['email'], $post['email']) != 0)):?>
+				<?php elseif($_POST && (strcmp($_POST['password'], $user['password']) != 0 || strcmp($_POST['email'], $user['email']) != 0)):?>
 					<p>Please enter the correct username and password.</p>
 				<?php endif?>
+
+				<button id="buttons"><a href="signup.php">Sign Up</a></button>
 			</form>
 		</div>
 	</main>
@@ -93,10 +82,10 @@
 		
 		<nav id="footernav">
 			<ul>
-				<li><a href="index.html">Home</a></li>
+				<li><a href="index.php">Home</a></li>
 				<li><a href="products.php">Products</a></li>
-				<li><a href="contact.html">Contact Us</a></li>
-				<li><a href="login.php">Account</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
+                <li><a href="login.php">Account</a></li>
                 <li><a href="inventory.php">Inventory</a></li>
 			</ul>
 		</nav>

@@ -1,3 +1,18 @@
+<?php
+	require('connect.php');
+    session_start();
+
+    if(isset($_SESSION['user_id']))
+    {
+        $id = $_SESSION['user_id'];
+        $query = "SELECT * FROM users WHERE id =:id";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':id', $id, PDO::PARAM_INT);
+        $statement->execute();
+        $user = $statement->fetch();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +31,14 @@
 		<h1>Parallel Reads</h1>
 		<nav>
 			<ul>
-				<li><a href="index.html">Home</a></li>
+				<li><a href="index.php">Home</a></li>
 				<li><a href="products.php">Products</a></li>
-				<li><a href="contact.html">Contact Us</a></li>
-				<li><a href="login.php">Account</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
+				<?php if(isset($_SESSION['user_id'])):?>
+                    <li><a href="profile.php"><?=$user['username']?></a></li>
+                <?php else:?>
+                    <li><a href="login.php">Log In</a></li>
+                <?php endif?>
 			</ul>
 		</nav>
 		<h2>Expose your shelf to something new.</h2>
@@ -40,21 +59,21 @@
 				<h4>The Battle for Parallel</h4>
 				<p>By Denzell Winters & Conroy Madden</p>
 				<p><span class="strike">$32.53</span>&nbsp; &mdash; now $26.99!</p>
-				<p><a href="contact.html">Buy Here</a></p>
+				<p><a href="contact.php">Buy Here</a></p>
 			</div>
 			<div>
 				<img src="uploads/Magic In The Air.jpg" alt="A red hardcover book with a gold symbol in the center with an 'A'.">
 				<h4>Magic In The Air</h4>
 				<p>By Denzell Winters & Andrea Ricard</p>
 				<p><span class="strike">$25.85</span>&nbsp; &mdash; now $19.76!</p>
-				<p><a href="contact.html">Buy Here</a></p>
+				<p><a href="contact.php">Buy Here</a></p>
 			</div>
 			<div>
 				<img src="uploads/Before Hoverboards.jpg" alt="A purple hardcover book with a gold symbol in the center with an 'A'.">
 				<h4>Before Hoverboards</h4>
 				<p>By Denzell Winters & Jarvis Ives.</p>
 				<p><span class="strike">$35.95</span>&nbsp; &mdash; now $31.68!</p>
-				<p><a href="contact.html">Buy Here</a></p>
+				<p><a href="contact.php">Buy Here</a></p>
 			</div>
 		</section>
 	
@@ -65,21 +84,21 @@
 				<h4>Talking To The World</h4>
 				<p>By Andrea Ricard</p>
 				<p>$31.66</p>
-				<p><a href="contact.html">Buy Here</a></p>
+				<p><a href="contact.php">Buy Here</a></p>
 			</div>
 			<div>
 				<img src="uploads/The Fourth State.jpg" alt="A blue hardcover book with a golden fire symbol in the center.">
 				<h4>The Fourth State</h4>
 				<p>By Lucian Rivera & Raya Ives</p>
 				<p>$35.43</p>
-				<p><a href="contact.html">Buy Here</a></p>
+				<p><a href="contact.php">Buy Here</a></p>
 			</div>
 			<div>
 				<img src="uploads/The Mad Lovers.jpg" alt="A red hardcover book with intriducte patterns on the front, with the title 'The Bad Lovers' overtop of a slice of orange, all done in silver.">
 				<h4>The Mad Lovers</h4>
 				<p>By Chimand Alizo</p>
 				<p>$38.96</p>
-				<p><a href="contact.html">Buy Here</a></p>
+				<p><a href="contact.php">Buy Here</a></p>
 			</div>
 			<h4 class="italic" id="large">Bestsellers.</h4>
 		</section>
@@ -94,10 +113,14 @@
 		
 		<nav id="footernav">
 			<ul>
-				<li><a href="index.html">Home</a></li>
+				<li><a href="index.php">Home</a></li>
 				<li><a href="products.php">Products</a></li>
-				<li><a href="contact.html">Contact Us</a></li>
-				<li><a href="login.php">Account</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
+				<?php if(isset($_SESSION['user_id'])):?>
+                    <li><a href="profile.php">Account</a></li>
+                <?php else:?>
+                    <li><a href="login.php">Account</a></li>
+                <?php endif?>
 				<li><a href="inventory.php">Inventory</a></li>
 			</ul>
 		</nav>

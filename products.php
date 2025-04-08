@@ -9,7 +9,7 @@
         $statement = $db->prepare($query);
         $statement->bindValue(':id', $id, PDO::PARAM_INT);
         $statement->execute();
-        $post = $statement->fetch();
+        $user = $statement->fetch();
     }
 
     $query = "SELECT * FROM book_inventory ORDER BY id DESC";
@@ -27,7 +27,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Parallel Products</title>
+	<title>Our Selection | Parallel Reads</title>
 	<link type="text/css" rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
@@ -37,17 +37,17 @@
 <body>
     <header id="head">
         <div>
-            <h1><a href="index.html">Parallel Reads</a></h1>
+            <h1><a href="index.php">Parallel Reads</a></h1>
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="products.php">Products</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="contact.php">Contact Us</a></li>
                 <?php if(isset($_SESSION['user_id'])):?>
-                    <li><a href="profile.php"><?=$post['username']?></a></li>
+                    <li><a href="profile.php"><?=$user['username']?></a></li>
                 <?php else:?>
-                    <li><a href="login.php">Account</a></li>
+                    <li><a href="login.php">Log In</a></li>
                 <?php endif?>
             </ul>
         </nav>
@@ -79,10 +79,14 @@
 		
 		<nav id="footernav">
 			<ul>
-				<li><a href="index.html">Home</a></li>
+				<li><a href="index.php">Home</a></li>
 				<li><a href="php.html">Products</a></li>
-				<li><a href="contact.html">Contact Us</a></li>
-                <li><a href="login.php">Account</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
+                <?php if(isset($_SESSION['user_id'])):?>
+                    <li><a href="profile.php">Account</a></li>
+                <?php else:?>
+                    <li><a href="login.php">Account</a></li>
+                <?php endif?>
                 <li><a href="inventory.php">Inventory</a></li>
 			</ul>
 		</nav>

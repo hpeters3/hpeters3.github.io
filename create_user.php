@@ -13,25 +13,32 @@
         $user = $statement->fetch();
     }
 
-	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-	$query = "SELECT id FROM book_inventory WHERE id = :id";
-	$statement = $db->prepare($query);
-	$statement->bindValue(':id', $id, PDO::PARAM_INT);
-	$statement->execute();
-	$exists = $statement->rowCount() > 0;
+	$id = true;
 
-	if(isset($_GET['id']) && $exists == true)
+	if($_POST && strcmp($_POST['password'], $_POST['repassword']) == 0)
 	{
-		$query = "SELECT * FROM book_inventory WHERE id = :id";
-		$statement = $db->prepare($query);
-		$statement->bindValue(':id', $id, PDO::PARAM_INT);
-		$statement->execute();
-		$post = $statement->fetch();
+		if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
+		{
+			$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+			$password = $_POST['password']; //will hash and salt later
+			$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+	
+			$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
+			$statement = $db -> prepare($query);
+			$statement->bindValue(':username', $username);
+			$statement->bindValue(':password', $password);
+			$statement->bindValue(':email', $email);
+			$statement->execute();
+			
+			header("Location: users.php");
+			exit;
+		}
+		else if($_POST && (empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password'])))
+		{
+			$id = false;
+		}
 	}
-	else
-	{
-		$id = false;
-	}
+
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +46,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?=$post['title']?> | Parallel Reads</title>
+	<title>Parallel Inventory</title>
 	<link type="text/css" rel="stylesheet" href="style.css">
 	<link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
@@ -62,32 +69,33 @@
                 <?php else:?>
                     <li><a href="login.php">Log In</a></li>
                 <?php endif?>
+                
             </ul>
         </nav>
 	</header>
-
-	<main>
-		<section id="products">
-			<?php if($id):?>
-				<div>
-					<h2><?=$post['title']?></h2>
-					<div>
-						<?php if($post['image']):?>
-                        	<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
-                    	<?php endif?>
-        				<p><?=$post['author'] ?></p>
-        				<p><?=$post['description'] ?></p>
-        				<p><?=$post['genre'] ?></p>
-        				<p><?=$post['stock'] ?></p>
-        				<p><?=$post['price'] ?></p>
-        			</div>
-        		</div>
-        	<?php else:
-        		header("Location: products.php");
-        	endif?>
-    	</section>
+	<main id="contact">
+		<div id="contact_info">
+			<?php if ($id): ?>
+				<form method="post">
+					<label for="username">Username:</label>
+					<input id="username" name="username">
+					<label for="email">Email:</label>
+					<input id="email" name="email">
+					<label for="password">Password:</label>
+					<input id="password" name="password" type="password">
+					<label for="repassword">Re-enter password:</label>
+					<input id="repassword" name="repassword" type="password">
+					<input id="buttons" type="submit" value="Sign Up">
+	
+					<?php if($_POST && strcmp($_POST['password'], $_POST['repassword']) != 0):?>
+						<p>Your passwords do not match. Try again.</p>
+					<?php endif?>
+				</form>
+			<?php else:
+				echo "You missed something, make sure you fill in all the fields.";
+			endif ?>
+		</div>
 	</main>
-
 	<footer>
 		<a href="https://www.facebook.com/" target="_blank"><img src="Images/Facebook-removebg.png" alt="Facebook"></a>
 		<a href="https://www.instagram.com/" target="_blank"><img src="Images/Instagram-removebg.png" alt="Instagram"></a>
@@ -114,4 +122,3 @@
 		
 	</footer>
 </body>
-</html>

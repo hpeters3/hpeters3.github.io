@@ -2,11 +2,22 @@
 
 	require('connect.php');
 	require('authenticate.php');
+	session_start();
 
 	require '\XAMPP\htdocs\Web_Dev_2\Module 6\Project\hpeters3.github.io\php-image-resize-master\lib\ImageResize.php';
 	require '\XAMPP\htdocs\Web_Dev_2\Module 6\Project\hpeters3.github.io\php-image-resize-master\lib\ImageResizeException.php';
 
 	$id = true;
+
+	if(isset($_SESSION['user_id']))
+    {
+        $id = $_SESSION['user_id'];
+        $query = "SELECT * FROM users WHERE id =:id";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':id', $id, PDO::PARAM_INT);
+        $statement->execute();
+        $user = $statement->fetch();
+    }
 
 	if($_POST && !empty($_POST['title']) && !empty($_POST['author']) && !empty($_POST['description']) && !empty($_POST['genre']) && !empty($_POST['stock']) && !empty($_POST['price']) && !empty($_POST['image_alt']))
 	{
@@ -85,7 +96,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Parallel Inventory</title>
+	<title>Add Book | Parallel Reads</title>
 	<link type="text/css" rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
@@ -95,14 +106,18 @@
 <body>
     <header id="head">
         <div>
-            <h1><a href="index.html">Parallel Reads</a></h1>
+            <h1><a href="index.php">Parallel Reads</a></h1>
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="products.php">Products</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="login.php">Account</a></li>
+                <li><a href="contact.php">Contact Us</a></li>
+                <?php if(isset($_SESSION['user_id'])):?>
+                    <li><a href="profile.php"><?=$user['username']?></a></li>
+                <?php else:?>
+                    <li><a href="login.php">Log In</a></li>
+                <?php endif?>
                 <li><a href="inventory.php">Inventory</a></li>
             </ul>
         </nav>
@@ -159,10 +174,14 @@
 		
 		<nav id="footernav">
 			<ul>
-				<li><a href="index.html">Home</a></li>
+				<li><a href="index.php">Home</a></li>
 				<li><a href="products.html">Products</a></li>
-				<li><a href="contact.html">Contact Us</a></li>
-				<li><a href="login.php">Account</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
+				<?php if(isset($_SESSION['user_id'])):?>
+                    <li><a href="profile.php">Account</a></li>
+                <?php else:?>
+                    <li><a href="login.php">Account</a></li>
+                <?php endif?>
                 <li><a href="inventory.php">Inventory</a></li>
 			</ul>
 		</nav>

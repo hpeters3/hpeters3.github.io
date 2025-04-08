@@ -1,32 +1,79 @@
 <?php
 
 	require('connect.php');
+	session_start();
 
 	$id = true;
+	$valid = true;
 
-	if($_POST && strcmp($_POST['password'], $_POST['repassword']) == 0)
+	$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$query = "SELECT * FROM users WHERE username = :username";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':username', $username, PDO::PARAM_STR);
+	$statement->execute();
+	$username_exists = $statement->rowCount() > 0;
+
+	$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+	$query = "SELECT * FROM users WHERE email = :email";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':email', $email, PDO::PARAM_STR);
+	$statement->execute();
+	$email_exists = $statement->rowCount() > 0;
+
+	if($username_exists == false)
 	{
-		if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
+		if($email_exists == false)
 		{
-			$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-			$password = $_POST['password']; //will hash and salt later
-			$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-	
-			$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
-			$statement = $db -> prepare($query);
-			$statement->bindValue(':username', $username);
-			$statement->bindValue(':password', $password);
-			$statement->bindValue(':email', $email);
-			$statement->execute();
-	
-			header("Location: index.html");
-			exit;
+			if($_POST && strcmp($_POST['password'], $_POST['repassword']) == 0)
+			{
+				if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
+				{
+					if(filter_var($email, FILTER_VALIDATE_EMAIL))
+					{
+						$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+						$password = $_POST['password']; //will hash and salt later
+						$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+				
+						$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
+						$statement = $db -> prepare($query);
+						$statement->bindValue(':username', $username);
+						$statement->bindValue(':password', $password);
+						$statement->bindValue(':email', $email);
+						$statement->execute();
+						
+						$query = "SELECT * FROM users WHERE email = :email";
+						$statement = $db->prepare($query);
+						$statement->bindValue(':email', $email, PDO::PARAM_STR);
+						$statement->execute();
+						$user = $statement->fetch();
+			
+						$_SESSION['user_id'] = $user['id'];
+						header("Location: index.php");
+						exit;
+					}
+					else
+					{
+						$valid = false;	
+					}
+				}
+				else if($_POST && (empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password'])))
+				{
+					$id = false;
+				}
+					
+			}
 		}
-		else if($_POST && (empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password'])))
+		else
 		{
-			$id = false;
+			$email_exists = true;
 		}
 	}
+	else
+	{
+		$username_exists = true;
+	}
+
+	
 
 ?>
 
@@ -46,21 +93,19 @@
 <body>
     <header id="head">
         <div>
-            <h1><a href="index.html">Parallel Reads</a></h1>
+            <h1><a href="index.php">Parallel Reads</a></h1>
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="products.php">Products</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="login.php">Account</a></li>
-                
+                <li><a href="contact.php">Contact Us</a></li>
+                <li><a href="login.php">Log In</a></li>
             </ul>
         </nav>
 	</header>
 	<main id="contact">
 		<div id="contact_info">
-			<?php if ($id): ?>
 				<form method="post">
 					<label for="username">Username:</label>
 					<input id="username" name="username">
@@ -72,13 +117,22 @@
 					<input id="repassword" name="repassword" type="password">
 					<input id="buttons" type="submit" value="Sign Up">
 	
+					<?php if($id == false):?>
+						<p>You missed something, make sure you fill in all the fields.</p>
+					<?php elseif($email_exists == true):?>
+						<p>That email is already associated with an account. Either choose a new email or login.</p>
+					<?php elseif($username_exists == true):?>
+						<p>That username is already taken. Try another one.</p>
+					<?php endif ?>
+
+					<?php if($valid == false):?>
+						<p>That is an invalid email. Please enter another one.</p>
+					<?php endif?>
+
 					<?php if($_POST && strcmp($_POST['password'], $_POST['repassword']) != 0):?>
 						<p>Your passwords do not match. Try again.</p>
 					<?php endif?>
 				</form>
-			<?php else:
-				echo "You missed something, make sure you fill in all the fields.";
-			endif ?>
 		</div>
 	</main>
 	<footer>
@@ -90,10 +144,14 @@
 		
 		<nav id="footernav">
 			<ul>
-				<li><a href="index.html">Home</a></li>
+				<li><a href="index.php">Home</a></li>
 				<li><a href="products.php">Products</a></li>
-				<li><a href="contact.html">Contact Us</a></li>
-				<li><a href="login.php">Account</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
+				<?php if(isset($_SESSION['user_id'])):?>
+                    <li><a href="profile.php">Account</a></li>
+                <?php else:?>
+                    <li><a href="login.php">Account</a></li>
+                <?php endif?>
                 <li><a href="inventory.php">Inventory</a></li>
 			</ul>
 		</nav>
