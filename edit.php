@@ -148,7 +148,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Edit <?=$post['title']?> | Parallel Reads</title>
-	<link type="text/css" rel="stylesheet" href="style.css">
+	<link type="text/css" rel="stylesheet" href="parallelstyle.css">
 	<link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">

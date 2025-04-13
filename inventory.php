@@ -47,6 +47,20 @@
 		$statement = $db->prepare($query);
 		$statement->execute();
     }
+
+    if(isset($_SESSION['user_id']))
+    {
+        $id = $_SESSION['user_id'];
+        $query = "SELECT * FROM users WHERE id =:id";
+        $user_statement = $db->prepare($query);
+        $user_statement->bindValue(':id', $id, PDO::PARAM_INT);
+        $user_statement->execute();
+        $user = $user_statement->fetch();
+    }
+
+	$query = "SELECT * FROM users ORDER BY id DESC";
+	$user_statement = $db->prepare($query);
+	$user_statement->execute();
 ?>
 
 <!DOCTYPE html>
@@ -83,60 +97,78 @@
         </nav>
 	</header>
 	<main>
-		<ul>
-			<li><a href="post.php">Update Inventory</a></li>
-			<li><a href="users.php">Users</a></li>
-		</ul>
+		<section>
+			<h2>Books</h2>
 
-		<div class="filter_buttons">
-			<form method="post" class="filters">
-    			<input type="hidden" name="sort_title" value="sort_title">
-    			<input type="submit" value="Sort Books By Title">
-    		</form>
-	
-    		<form method="post" class="filters">
-    				<input type="hidden" name="sort_author" value="sort_author">
-    				<input type="submit" value="Sort Books By Author">
-    		</form>
-	
-    		<form method="post" class="filters">
-    				<input type="hidden" name="sort_genre" value="sort_genre">
-    				<input type="submit" value="Sort Books By Genre">
-    		</form>
-	
-    		<form method="post" class="filters">
-    				<input type="hidden" name="sort_original" value="sort_original">
-    				<input type="submit" value="Clear Filter">
-    		</form>
-    	</div>
-	
-    	<?php if($_POST && isset($_POST['sort_title'])):?>
-    		<p>Organizing By Title</p>
-    	<?php elseif($_POST && isset($_POST['sort_author'])):?>
-    		<p>Organizing By Author</p>
-    	<?php elseif($_POST && isset($_POST['sort_genre'])):?>
-    		<p>Organizing By Genre</p>
-    	<?php endif?>
+			<li><a href="post.php">Create Inventory</a></li>
 
-		<?php while($row = $statement->fetch()):?>
-			<div class="book">
-            	<p><?=$row['title']?></p>
-            	<a href = "edit.php?id=<?=$row['id']?>">Edit</a>
-            	<div>
-            		<?php if($row['image']):?>
-                        <img src="<?=$row['image']?>">
-                    <?php else:?>
-                       	<p>This book has no image.</p>
-                    <?php endif?>
-            		<p><?= $row['image_alt'] ?></p>
-                	<p>By <?= $row['author'] ?></p>
-                	<p><?= $row['description'] ?></p>
-                	<p><?= $row['genre'] ?></p>
-                	<p><?= $row['stock'] ?></p>
-                	<p><?= $row['price'] ?></p>
-            	</div>
-            </div>
-        <?php endwhile?>
+			<div class="filter_buttons">
+				<form method="post" class="filters">
+    				<input type="hidden" name="sort_title" value="sort_title">
+    				<input type="submit" value="Sort Books By Title">
+    			</form>
+		
+    			<form method="post" class="filters">
+    					<input type="hidden" name="sort_author" value="sort_author">
+    					<input type="submit" value="Sort Books By Author">
+    			</form>
+		
+    			<form method="post" class="filters">
+    					<input type="hidden" name="sort_genre" value="sort_genre">
+    					<input type="submit" value="Sort Books By Genre">
+    			</form>
+		
+    			<form method="post" class="filters">
+    					<input type="hidden" name="sort_original" value="sort_original">
+    					<input type="submit" value="Clear Filter">
+    			</form>
+    		</div>
+		
+    		<?php if($_POST && isset($_POST['sort_title'])):?>
+    			<p>Organizing By Title</p>
+    		<?php elseif($_POST && isset($_POST['sort_author'])):?>
+    			<p>Organizing By Author</p>
+    		<?php elseif($_POST && isset($_POST['sort_genre'])):?>
+    			<p>Organizing By Genre</p>
+    		<?php endif?>
+	
+			<?php while($row = $statement->fetch()):?>
+				<div class="book">
+        	    	<p><?=$row['title']?></p>
+        	    	<a href = "edit.php?id=<?=$row['id']?>">Edit</a>
+        	    	<div>
+        	    		<?php if($row['image']):?>
+        	                <img src="<?=$row['image']?>">
+        	            <?php else:?>
+        	               	<p>This book has no image.</p>
+        	            <?php endif?>
+        	    		<p><?= $row['image_alt'] ?></p>
+        	        	<p>By <?= $row['author'] ?></p>
+        	        	<p><?= $row['description'] ?></p>
+        	        	<p><?= $row['genre'] ?></p>
+        	        	<p><?= $row['stock'] ?></p>
+        	        	<p><?= $row['price'] ?></p>
+        	    	</div>
+        	    </div>
+        	<?php endwhile?>
+        </section>
+
+        <section>
+        	<h2>Users</h2>
+
+        	<li><a href="create_user.php">Create Users</a></li>
+
+        	<?php while($row = $user_statement->fetch()):?>
+				<div class="book">
+        	    	<a href = "update_users.php?id=<?=$row['id']?>">Edit</a>
+        	    	<div>
+        	    		<p>Username: <?=$row['username']?></p>
+        	    		<p>Email: <?= $row['email'] ?></p>
+        	        	<p>Password: <?= $row['password'] ?></p>
+        	    	</div>
+        	    </div>
+        	<?php endwhile?>
+        </section>
         
 	</main>
 	<footer>
