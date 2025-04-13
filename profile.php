@@ -11,6 +11,19 @@
         $statement->execute();
         $user = $statement->fetch();
 
+        if(isset($_POST['delete']))
+		{
+			$id = filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT);
+			$query = "DELETE FROM users WHERE id = :id";
+			$statement = $db->prepare($query);
+			$statement->bindValue(':id', $id, PDO::PARAM_INT);
+			$statement->execute();
+			session_destroy();
+	
+			header("Location: index.php");
+			exit;
+		}
+
         if(isset($_POST['log_out']))
 		{
 			session_destroy();
@@ -18,7 +31,6 @@
 			exit;
 		}
     }
-	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,10 +64,22 @@
 	</header>
 
     <main>
-    	<form method="post">
-    		<input type="hidden" name="log_out" value="log_out">
-    		<input id="buttons" type="submit" value="Log Out">
-    	</form>
+    	<?php if(isset($_SESSION['user_id'])): ?>
+    		<form method="post">
+    			<input type="hidden" name="log_out" value="log_out">
+    			<input id="buttons" type="submit" value="Log Out">
+    		</form>
+    		<form method="post">
+    			<input type="hidden" name="delete" value="<?=$user['id']?>">
+				<input id="buttons" type="submit" value="Delete your account?">
+			</form>
+		<?php else: ?>
+			<p>Oh, you think you're so clever, don't you?</p>
+			<p>Did you really think an error like that would slip by me?</p>
+			<p>Oh, you're so mistaken.</p>
+			<p>Do you want to know what I think?</p>
+			<button><a href="whydidyouclickme.php">Click here.</a></button>
+		<?php endif?>
     </main>
     
     <footer>

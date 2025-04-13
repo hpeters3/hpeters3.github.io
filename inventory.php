@@ -3,7 +3,7 @@
 	require('connect.php');
 	require('authenticate.php');
 	session_start();
-	
+
 	if(isset($_SESSION['user_id']))
     {
         $id = $_SESSION['user_id'];
@@ -14,9 +14,39 @@
         $user = $statement->fetch();
     }
 
-	$query = "SELECT * FROM book_inventory ORDER BY id DESC";
-	$statement = $db->prepare($query);
-	$statement->execute();
+    if($_POST && isset($_POST['sort_title']))
+    {
+    	$query = "SELECT * FROM book_inventory ORDER BY title ASC";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		$title = $statement->fetch();
+    }
+    else if($_POST && isset($_POST['sort_author']))
+    {
+    	$query = "SELECT * FROM book_inventory ORDER BY author ASC";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		$title = $statement->fetch();
+    }
+    else if($_POST && isset($_POST['sort_genre']))
+    {
+    	$query = "SELECT * FROM book_inventory ORDER BY genre ASC";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		$title = $statement->fetch();
+    }
+    else if($_POST && isset($_POST['sort_original']))
+    {
+    	$query = "SELECT * FROM book_inventory ORDER BY id DESC";
+		$statement = $db->prepare($query);
+		$statement->execute();
+    }
+    else
+    {
+    	$query = "SELECT * FROM book_inventory ORDER BY id DESC";
+		$statement = $db->prepare($query);
+		$statement->execute();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +55,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Inventory | Parallel Reads</title>
-	<link type="text/css" rel="stylesheet" href="style.css">
+	<link type="text/css" rel="stylesheet" href="parallelstyle.css">
 	<link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
@@ -57,6 +87,36 @@
 			<li><a href="post.php">Update Inventory</a></li>
 			<li><a href="users.php">Users</a></li>
 		</ul>
+
+		<div class="filter_buttons">
+			<form method="post" class="filters">
+    			<input type="hidden" name="sort_title" value="sort_title">
+    			<input type="submit" value="Sort Books By Title">
+    		</form>
+	
+    		<form method="post" class="filters">
+    				<input type="hidden" name="sort_author" value="sort_author">
+    				<input type="submit" value="Sort Books By Author">
+    		</form>
+	
+    		<form method="post" class="filters">
+    				<input type="hidden" name="sort_genre" value="sort_genre">
+    				<input type="submit" value="Sort Books By Genre">
+    		</form>
+	
+    		<form method="post" class="filters">
+    				<input type="hidden" name="sort_original" value="sort_original">
+    				<input type="submit" value="Clear Filter">
+    		</form>
+    	</div>
+	
+    	<?php if($_POST && isset($_POST['sort_title'])):?>
+    		<p>Organizing By Title</p>
+    	<?php elseif($_POST && isset($_POST['sort_author'])):?>
+    		<p>Organizing By Author</p>
+    	<?php elseif($_POST && isset($_POST['sort_genre'])):?>
+    		<p>Organizing By Genre</p>
+    	<?php endif?>
 
 		<?php while($row = $statement->fetch()):?>
 			<div class="book">

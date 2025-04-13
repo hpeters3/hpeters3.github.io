@@ -189,6 +189,20 @@ footer p{
     gap: 2rem;
     place-items: center;
 }
+.filter_buttons{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, calc(100% / 3 - 2rem)));
+    justify-content: space-around;
+    place-items: center;
+}
+.filters
+{
+    padding: 0px;
+    background-color: #f0ebe4;
+    border: 0px;
+    border-radius: 0px;
+    margin: 0px;
+}
 #products div{
     padding: 20px;
     margin: 10px 0px 40px 0px;
