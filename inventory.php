@@ -48,19 +48,53 @@
 		$statement->execute();
     }
 
-    if(isset($_SESSION['user_id']))
-    {
-        $id = $_SESSION['user_id'];
-        $query = "SELECT * FROM users WHERE id =:id";
-        $user_statement = $db->prepare($query);
-        $user_statement->bindValue(':id', $id, PDO::PARAM_INT);
-        $user_statement->execute();
-        $user = $user_statement->fetch();
-    }
+    if(isset($_POST['delete']))
+	{
+		$id = filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT);
+		$query = "DELETE FROM comments WHERE id = :id";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+
+		header("Location: inventory.php");
+		exit;
+	}
+
+	if(isset($_POST['hide']))
+	{
+		$id = filter_input(INPUT_POST, 'hide', FILTER_SANITIZE_NUMBER_INT);
+		$public = 1;
+		$query = "UPDATE comments SET public = :public WHERE id = :id";
+		$statement = $db -> prepare($query);
+		$statement->bindValue(':public', $public);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+
+		header("Location: inventory.php");
+		exit;
+	}
+
+	if(isset($_POST['unhide']))
+	{
+		$id = filter_input(INPUT_POST, 'unhide', FILTER_SANITIZE_NUMBER_INT);
+		$public = 0;
+		$query = "UPDATE comments SET public = :public WHERE id = :id";
+		$statement = $db -> prepare($query);
+		$statement->bindValue(':public', $public);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+
+		header("Location: inventory.php");
+		exit;
+	}
 
 	$query = "SELECT * FROM users ORDER BY id DESC";
 	$user_statement = $db->prepare($query);
 	$user_statement->execute();
+
+    $query = "SELECT comments.*, users.username, book_inventory.title FROM comments JOIN users ON comments.user_id = users.id JOIN book_inventory ON comments.book_id = book_inventory.id ORDER BY comments.id DESC";
+	$comment_statement = $db->prepare($query);
+	$comment_statement->execute();
 ?>
 
 <!DOCTYPE html>
@@ -167,6 +201,33 @@
         	        	<p>Password: <?= $row['password'] ?></p>
         	    	</div>
         	    </div>
+        	<?php endwhile?>
+        </section>
+
+        <section>
+			<h2>Comments</h2>
+
+        	<?php while($comments = $comment_statement->fetch()):?>
+				<div>
+        	    	<p>Username: <?=$comments['username']?></p>
+        	    	<p>Book: <?= $comments['title'] ?></p>
+        	        <p>Comment: <?= $comments['comment'] ?></p>
+        	        <?php if($comments['public'] == 0):?>
+        	        	<p>Hidden: false</p>
+        	        	<form method="post" id="buttons">
+							<button type="submit" name="hide" value="<?=$comments['id']?>">Hide Comment</button>
+						</form>
+        	        <?php else:?>
+        	        	<p>Hidden: true</p>
+        	        	<form method="post" id="buttons">
+							<button type="submit" name="unhide" value="<?=$comments['id']?>">Reveal Comment</button>
+						</form>
+        	        <?php endif?>
+        	    </div>
+        	    <form method="post" id="buttons">
+					<button type="submit" name="delete" value="<?=$comments['id']?>">Delete</button>
+				</form>
+				
         	<?php endwhile?>
         </section>
         

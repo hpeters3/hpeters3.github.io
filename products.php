@@ -128,7 +128,7 @@
                     <h4><?=$row['title']?></h4>
                     <p><?=$row['author']?></p>
                     <p><?=$row['price']?></p>
-                    <p><a href="display.php?id=<?=$row['id']?>">See More</a></p> <!-- . "&p=" . $seo-->
+                    <p><a href="display.php?id=<?=$row['id']?>">See More</a></p>
                 </div>
             <?php endwhile?>
         </section>

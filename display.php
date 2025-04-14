@@ -32,6 +32,55 @@
 	{
 		$id = false;
 	}
+
+	if(isset($_POST['delete']))
+	{
+		$id = filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT);
+		$query = "DELETE FROM comments WHERE id = :id";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+
+		header("Location: display.php?id=" . $post['id']);
+		exit;
+	}
+
+	if($_POST && isset($_POST['comment']))
+	{
+		$user_id = $_SESSION['user_id'];
+		$book_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+		$comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+		$query = "INSERT INTO comments (user_id, book_id, comment) VALUES (:user_id, :book_id, :comment)";
+		$statement = $db -> prepare($query);
+		$statement->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+		$statement->bindValue(':book_id', $book_id, PDO::PARAM_INT);
+		$statement->bindValue(':comment', $comment);
+		$statement->execute();
+
+		header("Location: display.php?id=" . $post['id']);
+		exit;
+	}
+	else if($_POST && (empty($_POST['comment'])))
+	{
+		header("Location: display.php?id=" . $post['id']);
+		exit;
+	}
+
+	$book_id = filter_input(INPUT_GET, 'book_id', FILTER_SANITIZE_NUMBER_INT);
+	$query = "SELECT comments.*, users.username FROM comments JOIN users ON comments.user_id =  users.id WHERE comments.book_id = :book_id";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':book_id', $post['id'], PDO::PARAM_INT);
+	$statement->execute();
+	$comment_exists = $statement->rowCount() > 0;
+
+	if($comment_exists == true)
+	{
+		$query = "SELECT comments.*, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE comments.book_id = :book_id ORDER BY id DESC";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':book_id', $post['id'], PDO::PARAM_INT);
+		$statement->execute();
+	}
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +135,30 @@
         		header("Location: products.php");
         	endif?>
     	</section>
+
+    	<?php if(isset($_SESSION['user_id'])):?>
+    		<section>
+    			<form method="post">
+    				<textarea name="comment" placeholder="Enter your review here."></textarea>
+    				<input type="submit" value="Submit">
+    			</form>
+    		</section>
+    	<?php endif;
+
+    	while($comments = $statement->fetch()):
+    		if($comments['public'] == 0):?>
+				<div>
+        			<p><?=$comments['username'] ?></p>
+        			<p><?=$comments['comment'] ?></p>
+	
+        			<?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $comments['user_id']):?>
+    					<form method="post" id="buttons">
+							<button type="submit" name="delete" value="<?=$comments['id']?>">Delete</button>
+						</form>
+					<?php endif?>
+        		</div>
+        	<?php endif;
+        endwhile?>
 	</main>
 
 	<footer>

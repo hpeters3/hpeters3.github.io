@@ -41,7 +41,7 @@
                 <?php endif?>
 			</ul>
 		</nav>
-		<h2>Expose your shelf to something new.</h2>
+		<h2>Expose your shelf to something new</h2>
 	</header>
 
 	<main>
