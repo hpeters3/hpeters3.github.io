@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2025 at 05:40 PM
+-- Generation Time: Apr 15, 2025 at 06:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,6 +57,53 @@ INSERT INTO `book_inventory` (`id`, `title`, `author`, `description`, `genre`, `
 (14, 'A Dangerous Wish', 'Jade Miller', 'Follow Jade as she explores the world of recessive genes, displaying how they can be a blessing and a curse.', 'Science Nonfiction', 10, 38.59, 'Recessive Genes Textbook', 0x75706c6f6164732f412044616e6765726f757320576973682e6a7067),
 (15, 'The Mad Lovers', 'Chimand Alizo', 'Follow the story of two lovers as they aim to make the world a better place, instead destroying it in the process.', 'Historical Fiction', 12, 38.96, 'A red hardcover book with intricate patterns on the front, with the title &#039;The Mad Lovers&#039; overtop of a slice of orange, all done in silver.', 0x75706c6f6164732f546865204d6164204c6f766572732e6a7067);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `book_id` int(4) NOT NULL,
+  `comment` varchar(300) NOT NULL,
+  `public` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `user_id`, `book_id`, `comment`, `public`) VALUES
+(1, NULL, 15, 'This is my kind of book!', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `email` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`) VALUES
+(5, 'DancingBooks', 'whyhellothere', 'hpeters3@academic.rrc.ca'),
+(6, 'Brickwall', 'unstoppable', 'rylanp37@gmail.com'),
+(9, 'Jaxon', 'testing123', 'bob@emai.com'),
+(10, 'Kennedy', 'iknowyoureverymove', 'parallelmastermind@gmail.com'),
+(11, 'StratOrtiz', 'kennedyortiz', 'rowanortiz@gmail.com'),
+(12, 'The Stars &amp; Raya', 'liquidsgasesandplasm', 'rayaelenastar@gmail.com'),
+(13, 'Em The Muse', 'redmixingpen', 'emthemuse@gmail.com');
+
 --
 -- Indexes for dumped tables
 --
@@ -68,6 +115,20 @@ ALTER TABLE `book_inventory`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_idfk` (`user_id`),
+  ADD KEY `book_idfk` (`book_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -75,7 +136,30 @@ ALTER TABLE `book_inventory`
 -- AUTO_INCREMENT for table `book_inventory`
 --
 ALTER TABLE `book_inventory`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `book_idfk` FOREIGN KEY (`book_id`) REFERENCES `book_inventory` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_idfk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
