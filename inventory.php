@@ -28,9 +28,9 @@
 		$statement->execute();
 		$title = $statement->fetch();
     }
-    else if($_POST && isset($_POST['sort_genre']))
+    else if($_POST && isset($_POST['sort_price']))
     {
-    	$query = "SELECT * FROM book_inventory ORDER BY genre ASC";
+    	$query = "SELECT * FROM book_inventory ORDER BY price ASC";
 		$statement = $db->prepare($query);
 		$statement->execute();
 		$title = $statement->fetch();
@@ -148,8 +148,8 @@
     			</form>
 		
     			<form method="post" class="filters">
-    					<input type="hidden" name="sort_genre" value="sort_genre">
-    					<input type="submit" value="Sort Books By Genre">
+    					<input type="hidden" name="sort_price" value="sort_price">
+    					<input type="submit" value="Sort Books By Price">
     			</form>
 		
     			<form method="post" class="filters">
@@ -162,8 +162,8 @@
     			<p>Organizing By Title</p>
     		<?php elseif($_POST && isset($_POST['sort_author'])):?>
     			<p>Organizing By Author</p>
-    		<?php elseif($_POST && isset($_POST['sort_genre'])):?>
-    			<p>Organizing By Genre</p>
+    		<?php elseif($_POST && isset($_POST['sort_price'])):?>
+    			<p>Organizing By Price</p>
     		<?php endif?>
 	
 			<?php while($row = $statement->fetch()):?>
@@ -214,17 +214,17 @@
         	        <p>Comment: <?= $comments['comment'] ?></p>
         	        <?php if($comments['public'] == 0):?>
         	        	<p>Hidden: false</p>
-        	        	<form method="post" id="buttons">
+        	        	<form method="post" class="filters">
 							<button type="submit" name="hide" value="<?=$comments['id']?>">Hide Comment</button>
 						</form>
         	        <?php else:?>
         	        	<p>Hidden: true</p>
-        	        	<form method="post" id="buttons">
+        	        	<form method="post" class="filters">
 							<button type="submit" name="unhide" value="<?=$comments['id']?>">Reveal Comment</button>
 						</form>
         	        <?php endif?>
         	    </div>
-        	    <form method="post" id="buttons">
+        	    <form method="post" class="filters">
 					<button type="submit" name="delete" value="<?=$comments['id']?>">Delete</button>
 				</form>
 				

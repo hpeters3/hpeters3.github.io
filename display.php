@@ -143,6 +143,13 @@
     				<input type="submit" value="Submit">
     			</form>
     		</section>
+    	<?php else:?>
+    		<section>
+    			<form method="post">
+    				<textarea name="comment" placeholder="Enter your review here."></textarea>
+    				<button><a href="login.php">Log in to join the conversation.</a></button>
+    			</form>
+    		</section>
     	<?php endif;
 
     	while($comments = $statement->fetch()):

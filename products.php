@@ -17,21 +17,18 @@
         $query = "SELECT * FROM book_inventory ORDER BY title ASC";
         $statement = $db->prepare($query);
         $statement->execute();
-        $title = $statement->fetch();
     }
     else if($_POST && isset($_POST['sort_author']))
     {
         $query = "SELECT * FROM book_inventory ORDER BY author ASC";
         $statement = $db->prepare($query);
         $statement->execute();
-        $title = $statement->fetch();
     }
-    else if($_POST && isset($_POST['sort_genre']))
+    else if($_POST && isset($_POST['sort_price']))
     {
-        $query = "SELECT * FROM book_inventory ORDER BY genre ASC";
+        $query = "SELECT * FROM book_inventory ORDER BY price ASC";
         $statement = $db->prepare($query);
         $statement->execute();
-        $title = $statement->fetch();
     }
     else if($_POST && isset($_POST['sort_original']))
     {
@@ -45,11 +42,6 @@
         $statement = $db->prepare($query);
         $statement->execute();
     }
-    
-    //$row = $statement->fetch();
-    //$seo = $row['title'];
-    //$seo = str_replace(" ", "-", $seo);
-    //$seo = strtolower($seo);
 ?>
 
 <!DOCTYPE html>
@@ -100,8 +92,8 @@
                </form>
     
                <form method="post" class="filters">
-                   <input type="hidden" name="sort_genre" value="sort_genre">
-                   <input type="submit" value="Sort Books By Genre">
+                   <input type="hidden" name="sort_price" value="sort_price">
+                   <input type="submit" value="Sort Books By Price">
                </form>
 
                <form method="post" class="filters">
@@ -114,8 +106,8 @@
                 <p>Organizing By Title</p>
             <?php elseif($_POST && isset($_POST['sort_author'])):?>
                 <p>Organizing By Author</p>
-            <?php elseif($_POST && isset($_POST['sort_genre'])):?>
-                <p>Organizing By Genre</p>
+            <?php elseif($_POST && isset($_POST['sort_price'])):?>
+                <p>Organizing By Price</p>
             <?php endif?>
         </div>
 
