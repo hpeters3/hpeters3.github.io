@@ -30,7 +30,7 @@
 		$statement->bindValue(':id', $id, PDO::PARAM_INT);
 		$statement->execute();
 
-		header("Location: users.php");
+		header("Location: inventory.php");
 		exit;
 	}
 	else if($_POST && (empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password'])))
@@ -51,7 +51,7 @@
 		$statement->bindValue(':id', $id, PDO::PARAM_INT);
 		$statement->execute();
 
-		header("Location: users.php");
+		header("Location: inventory.php");
 		exit;
 	}
 	else if(isset($_GET['id']) && $exists == true)
@@ -125,7 +125,7 @@
 			<?php elseif($display == false):
 				echo "Make sure you have something in all the fields.";
 			else:
-				header("Location: users.php");
+				header("Location: inventory.php");
 			endif ?>
 		</div>
 	</main>

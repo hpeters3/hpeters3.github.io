@@ -18,7 +18,7 @@
 		$statement->execute();
 		$user = $statement->fetch();
 
-		if($_POST && strcmp($_POST['password'], $user['password']) == 0)
+		if($_POST && password_verify($_POST['password'], $user['password']))
 		{
 			$_SESSION['user_id'] = $user['id'];
 			header("Location: index.php");

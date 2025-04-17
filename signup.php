@@ -31,7 +31,7 @@
 					if(filter_var($email, FILTER_VALIDATE_EMAIL))
 					{
 						$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-						$password = $_POST['password']; //will hash and salt later
+						$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 						$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 				
 						$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";

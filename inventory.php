@@ -198,7 +198,6 @@
         	    	<div>
         	    		<p>Username: <?=$row['username']?></p>
         	    		<p>Email: <?= $row['email'] ?></p>
-        	        	<p>Password: <?= $row['password'] ?></p>
         	    	</div>
         	    </div>
         	<?php endwhile?>
