@@ -67,11 +67,11 @@
     	<?php if(isset($_SESSION['user_id'])): ?>
     		<form method="post">
     			<input type="hidden" name="log_out" value="log_out">
-    			<input id="buttons" type="submit" value="Log Out">
+    			<input type="submit" value="Log Out">
     		</form>
     		<form method="post">
     			<input type="hidden" name="delete" value="<?=$user['id']?>">
-				<input id="buttons" type="submit" value="Delete your account?">
+				<input type="submit" value="Delete your account?">
 			</form>
 		<?php else: ?>
 			<p>Oh, you think you're so clever, don't you?</p>

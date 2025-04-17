@@ -98,7 +98,7 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -134,7 +134,7 @@
 		<section>
 			<h2>Books</h2>
 
-			<li><a href="post.php">Create Inventory</a></li>
+			<p><a href="post.php">Create Inventory</a></p>
 
 			<div class="filter_buttons">
 				<form method="post" class="filters">
@@ -172,7 +172,7 @@
         	    	<a href = "edit.php?id=<?=$row['id']?>">Edit</a>
         	    	<div>
         	    		<?php if($row['image']):?>
-        	                <img src="<?=$row['image']?>">
+        	                <img src="<?=$row['image']?>" alt="<?=$row['image_alt']?>">
         	            <?php else:?>
         	               	<p>This book has no image.</p>
         	            <?php endif?>
@@ -190,7 +190,7 @@
         <section>
         	<h2>Users</h2>
 
-        	<li><a href="create_user.php">Create Users</a></li>
+        	<p><a href="create_user.php">Create Users</a></p>
 
         	<?php while($row = $user_statement->fetch()):?>
 				<div class="book">

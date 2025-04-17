@@ -52,7 +52,7 @@
 			{
 				move_uploaded_file($temp_path, $new_path);
 				$image = 'uploads_original/' . basename($new_path);
-				$resized_path = 'uploads/' . $_POST['title'] . '.jpg';
+				$resized_path = 'uploads/' . str_replace(" ","-", $_POST['title']) . '.jpg';
 
 				$resized = new \Gumlet\ImageResize($new_path);
 				$resized->resize(250, 375, true);
@@ -66,7 +66,7 @@
 		$description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$genre = filter_input(INPUT_POST, 'genre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		$stock = filter_input(INPUT_POST, 'stock', FILTER_SANITIZE_NUMBER_INT);
-		$price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
 		$image_alt = filter_input(INPUT_POST, 'image_alt', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 		$query = "INSERT INTO book_inventory (title, author, description, genre, stock, price, image_alt, image) VALUES (:title, :author, :description, :genre, :stock, :price, :image_alt, :image)";
@@ -92,7 +92,7 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">

@@ -84,7 +84,7 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -120,16 +120,14 @@
 			<?php if($id):?>
 				<div>
 					<h2><?=$post['title']?></h2>
-					<div>
-						<?php if($post['image']):?>
-                        	<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
-                    	<?php endif?>
-        				<p><?=$post['author'] ?></p>
-        				<p><?=$post['description'] ?></p>
-        				<p><?=$post['genre'] ?></p>
-        				<p><?=$post['stock'] ?></p>
-        				<p><?=$post['price'] ?></p>
-        			</div>
+					<?php if($post['image']):?>
+                       	<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
+                    <?php endif?>
+        			<p><?=$post['author'] ?></p>
+        			<p><?=$post['description'] ?></p>
+        			<p><?=$post['genre'] ?></p>
+        			<p><?=$post['stock'] ?></p>
+        			<p><?=$post['price'] ?></p>
         		</div>
         	<?php else:
         		header("Location: products.php");
@@ -147,7 +145,7 @@
     		<section>
     			<form method="post">
     				<textarea name="comment" placeholder="Enter your review here."></textarea>
-    				<button><a href="login.php">Log in to join the conversation.</a></button>
+    				<a href="login.php">Log in to join the conversation.</a>
     			</form>
     		</section>
     	<?php endif;

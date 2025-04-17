@@ -79,8 +79,8 @@
 			<div id="checkbox-container">
 				<?php while($row = $statement->fetch()):?>
                 	<div>
-                    	<input id="<?=$row['title']?>" type="checkbox">
-						<label for="<?=$row['title']?>"><?=$row['title']?></label>
+                    	<input type="checkbox">
+						<label><?=$row['title']?></label>
                 	</div>
             	<?php endwhile?>
 			</div>

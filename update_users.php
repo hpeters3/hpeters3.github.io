@@ -68,7 +68,7 @@
 	}
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -116,10 +116,10 @@
 						<input id="password" name="password" value="<?=$post['password']?>"></p>
 					</fieldset>
 
-					<p><input id="buttons" type="submit" value="Update"></p>
+					<p><input type="submit" value="Update"></p>
 				</form>
 
-				<form method="post" id="buttons">
+				<form method="post">
 					<button name="delete" value="<?=$post['id']?>">Delete</button>
 				</form>
 			<?php elseif($display == false):

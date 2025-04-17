@@ -28,7 +28,7 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -61,7 +61,7 @@
 				<input id="email" name="email">
 				<label for="password">Password:</label>
 				<input id="password" name="password" type="password">
-				<input id="buttons" type="submit" value="Login">
+				<input type="submit" value="Login">
 
 				<?php if($_POST && $exists == false):?>
 					<p>You do not have an account. Please create one.</p>
@@ -69,7 +69,7 @@
 					<p>Please enter the correct username and password.</p>
 				<?php endif?>
 
-				<button id="buttons"><a href="signup.php">Sign Up</a></button>
+				<a href="signup.php">Sign Up</a>
 			</form>
 		</div>
 	</main>

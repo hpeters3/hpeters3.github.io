@@ -92,7 +92,7 @@
 			{
 				move_uploaded_file($temp_path, $new_path);
 				$image = 'uploads_original/' . basename($new_path);
-				$resized_path = 'uploads/' . $_POST['title'] . '.jpg';
+				$resized_path = 'uploads/' . str_replace(" ","-", $_POST['title']) . '.jpg';
 
 				$resized = new \Gumlet\ImageResize($new_path);
 				$resized->resize(250, 375, true);
@@ -143,7 +143,7 @@
 	}
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -202,11 +202,11 @@
 
 					<fieldset>
 						<p><label for="image">Image</label>
-						<img src="<?=$post['image']?>">
+						<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
 						<input type="file" id="image" name="image">
 
 						<?php if($post['image']):?>
-							<button id="buttons" name="delete_image" value="<?=$post['image']?>">Delete Image</button></p>
+							<button name="delete_image" value="<?=$post['image']?>">Delete Image</button></p>
 						<?php endif?>
 
 						<input type="hidden" name="current_image" value="<?=$post['image']?>">
@@ -214,10 +214,10 @@
 						<p><label for="image_alt">Image Alt</label>
 						<input id="image_alt" name="image_alt" value="<?=$post['image_alt']?>"></p>
 					</fieldset>
-					<p><input id="buttons" type="submit" value="Update"></p>
+					<p><input type="submit" value="Update"></p>
 				</form>
 
-				<form method="post" id="buttons">
+				<form method="post">
 					<input type="hidden" name="delete_image" value="<?=$post['image']?>">
 					<button name="delete" value="<?=$post['id']?>">Delete</button>
 				</form>
