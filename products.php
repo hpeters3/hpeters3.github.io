@@ -114,13 +114,14 @@
         <section id="products">
             <?php while($row = $statement->fetch()):?>
                 <div>
-                    <?php if($row['image']):?>
-                        <img src="<?=$row['image']?>" alt="<?=$row['image_alt']?>">
-                    <?php endif?>
-                    <h4><?=$row['title']?></h4>
-                    <p><?=$row['author']?></p>
-                    <p><?=$row['price']?></p>
-                    <p><a href="display.php?id=<?=$row['id']?>">See More</a></p>
+                    <a href="display.php?id=<?=$row['id']?>">
+                        <?php if($row['image']):?>
+                            <img src="<?=$row['image']?>" alt="<?=$row['image_alt']?>">
+                        <?php endif?>
+                        <h4><?=$row['title']?></h4>
+                        <p><?=$row['author']?></p>
+                        <p><?=$row['price']?></p>
+                    </a>
                 </div>
             <?php endwhile?>
         </section>

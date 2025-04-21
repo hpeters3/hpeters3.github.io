@@ -45,7 +45,7 @@
 		exit;
 	}
 
-	if($_POST && isset($_POST['comment']))
+	if($_POST && !empty($_POST['comment']))
 	{
 		$user_id = $_SESSION['user_id'];
 		$book_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
@@ -61,11 +61,6 @@
 		header("Location: display.php?id=" . $post['id']);
 		exit;
 	}
-	else if($_POST && (empty($_POST['comment'])))
-	{
-		header("Location: display.php?id=" . $post['id']);
-		exit;
-	}
 
 	$book_id = filter_input(INPUT_GET, 'book_id', FILTER_SANITIZE_NUMBER_INT);
 	$query = "SELECT comments.*, users.username FROM comments JOIN users ON comments.user_id =  users.id WHERE comments.book_id = :book_id";
@@ -76,7 +71,7 @@
 
 	if($comment_exists == true)
 	{
-		$query = "SELECT comments.*, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE comments.book_id = :book_id ORDER BY id DESC";
+		$query = "SELECT comments.*, users.username FROM comments LEFT OUTER JOIN users ON comments.user_id = users.id WHERE comments.book_id = :book_id ORDER BY id DESC";
 		$statement = $db->prepare($query);
 		$statement->bindValue(':book_id', $post['id'], PDO::PARAM_INT);
 		$statement->execute();
@@ -153,7 +148,11 @@
     	while($comments = $statement->fetch()):
     		if($comments['public'] == 0):?>
 				<div>
-        			<p><?=$comments['username'] ?></p>
+					<?php if(empty($comments['username'])):?>
+						<p>Deleted User</p>
+					<?php else:?>
+        				<p><?=$comments['username'] ?></p>
+        			<?php endif?>
         			<p><?=$comments['comment'] ?></p>
 	
         			<?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $comments['user_id']):?>
