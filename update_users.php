@@ -22,6 +22,19 @@
 	$exists = $statement->rowCount() > 0;
 	$display = true;
 
+	if(isset($_GET['id']) && $exists == true)
+	{
+		$query = "SELECT * FROM users WHERE id = :id";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+		$post = $statement->fetch();
+	}
+	else
+	{
+		$id = false;
+	}
+
 	if(isset($_POST['delete']))
 	{
 		$id = filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT);
@@ -33,14 +46,21 @@
 		header("Location: inventory.php");
 		exit;
 	}
-	else if($_POST && (empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password'])))
+	
+	if($_POST && isset($_POST['email']) && isset($_POST['username']))
 	{
-		$display = false;
-	}
-	else if($_POST && isset($_POST['email']) && isset($_POST['username']) && isset($_POST['password']))
-	{
+		$query = "SELECT password FROM users WHERE id = :id";
+		$statement = $db->prepare($query);
+		$statement->bindValue(':id', $id, PDO::PARAM_INT);
+		$statement->execute();
+		$password = $statement->fetch(PDO::FETCH_COLUMN);
+		
+		if(!empty($_POST['password']))
+		{
+			$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+		}
+
 		$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-		$password = $_POST['password']; //will hash and salt later
 		$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 
 		$query = "UPDATE users SET email = :email, username = :username, password = :password WHERE id = :id";
@@ -53,18 +73,6 @@
 
 		header("Location: inventory.php");
 		exit;
-	}
-	else if(isset($_GET['id']) && $exists == true)
-	{
-		$query = "SELECT * FROM users WHERE id = :id";
-		$statement = $db->prepare($query);
-		$statement->bindValue(':id', $id, PDO::PARAM_INT);
-		$statement->execute();
-		$post = $statement->fetch();
-	}
-	else
-	{
-		$id = false;
 	}
 ?>
 <!DOCTYPE html>
@@ -101,7 +109,7 @@
 	</header>
 	<main id="contact">
 		<div id="contact_info">
-			<?php if($id && $display):?>
+			<?php if($id):?>
 				<form method="post" enctype="multipart/form-data">
 					<input type="hidden" name="id" value="<?= $post['id'] ?>">
 					<fieldset>
@@ -113,7 +121,7 @@
 						<input id="username" name="username" value="<?=$post['username']?>"></p>
 
 						<p><label for="password">Password</label>
-						<input id="password" name="password" value="<?=$post['password']?>"></p>
+						<input id="password" name="password"></p>
 					</fieldset>
 
 					<p><input type="submit" value="Update"></p>

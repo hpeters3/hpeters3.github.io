@@ -27,7 +27,7 @@
 </head>
 <body>
 	<header id="home">
-		<img src="Images/IMG_5242(1).JPG" alt="A large intro photo.">
+		<img src="Images/Home-Page.JPG" alt="A large intro photo.">
 		<h1>Parallel Reads</h1>
 		<nav>
 			<ul>

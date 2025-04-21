@@ -5,6 +5,7 @@
 
 	$id = true;
 	$valid = true;
+	$long = false;
 
 	$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$query = "SELECT * FROM users WHERE username = :username";
@@ -22,50 +23,57 @@
 
 	if($username_exists == false)
 	{
-		if($email_exists == false)
+		if(strlen($username) < 21)
 		{
-			if($_POST && strcmp($_POST['password'], $_POST['repassword']) == 0)
+			if($email_exists == false)
 			{
-				if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
+				if($_POST && strcmp($_POST['password'], $_POST['repassword']) == 0)
 				{
-					if(filter_var($email, FILTER_VALIDATE_EMAIL))
+					if($_POST && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
 					{
-						$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-						$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-						$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-				
-						$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
-						$statement = $db -> prepare($query);
-						$statement->bindValue(':username', $username);
-						$statement->bindValue(':password', $password);
-						$statement->bindValue(':email', $email);
-						$statement->execute();
-						
-						$query = "SELECT * FROM users WHERE email = :email";
-						$statement = $db->prepare($query);
-						$statement->bindValue(':email', $email, PDO::PARAM_STR);
-						$statement->execute();
-						$user = $statement->fetch();
-			
-						$_SESSION['user_id'] = $user['id'];
-						header("Location: index.php");
-						exit;
-					}
-					else
-					{
-						$valid = false;	
-					}
-				}
-				else if($_POST && (empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password'])))
-				{
-					$id = false;
-				}
+						if(filter_var($email, FILTER_VALIDATE_EMAIL))
+						{
+							$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+							$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+							$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 					
+							$query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
+							$statement = $db -> prepare($query);
+							$statement->bindValue(':username', $username);
+							$statement->bindValue(':password', $password);
+							$statement->bindValue(':email', $email);
+							$statement->execute();
+							
+							$query = "SELECT * FROM users WHERE email = :email";
+							$statement = $db->prepare($query);
+							$statement->bindValue(':email', $email, PDO::PARAM_STR);
+							$statement->execute();
+							$user = $statement->fetch();
+				
+							$_SESSION['user_id'] = $user['id'];
+							header("Location: index.php");
+							exit;
+						}
+						else
+						{
+							$valid = false;	
+						}
+					}
+					else if($_POST && (empty($_POST['email']) || empty($_POST['username']) || empty($_POST['password'])))
+					{
+						$id = false;
+					}
+						
+				}
+			}
+			else
+			{
+				$email_exists = true;
 			}
 		}
 		else
 		{
-			$email_exists = true;
+			$long = true;
 		}
 	}
 	else
@@ -127,6 +135,10 @@
 
 					<?php if($valid == false):?>
 						<p>That is an invalid email. Please enter another one.</p>
+					<?php endif?>
+
+					<?php if($long == true):?>
+						<p>The username is too long. Please enter a different one.</p>
 					<?php endif?>
 
 					<?php if($_POST && strcmp($_POST['password'], $_POST['repassword']) != 0):?>

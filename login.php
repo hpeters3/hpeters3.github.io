@@ -18,7 +18,7 @@
 		$statement->execute();
 		$user = $statement->fetch();
 
-		if($_POST && password_verify($_POST['password'], $user['password']))
+		if(password_verify($_POST['password'], $user['password']))
 		{
 			$_SESSION['user_id'] = $user['id'];
 			header("Location: index.php");
@@ -65,10 +65,9 @@
 
 				<?php if($_POST && $exists == false):?>
 					<p>You do not have an account. Please create one.</p>
-				<?php elseif($_POST && (strcmp($_POST['password'], $user['password']) != 0 || strcmp($_POST['email'], $user['email']) != 0)):?>
-					<p>Please enter the correct username and password.</p>
+				<?php elseif($_POST && (password_verify($_POST['password'], $user['password']) == false || strcmp($_POST['email'], $user['email']) != 0)):?>
+					<p>Please enter the correct email and password.</p>
 				<?php endif?>
-
 				<a href="signup.php">Sign Up</a>
 			</form>
 		</div>
