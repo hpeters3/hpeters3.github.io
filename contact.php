@@ -1,10 +1,29 @@
+<?php
+	require('connect.php');
+    session_start();
+
+    if(isset($_SESSION['user_id']))
+    {
+        $id = $_SESSION['user_id'];
+        $query = "SELECT * FROM users WHERE id =:id";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':id', $id, PDO::PARAM_INT);
+        $statement->execute();
+        $user = $statement->fetch();
+    }
+
+    $query = "SELECT * FROM book_inventory ORDER BY id DESC";
+    $statement = $db->prepare($query);
+    $statement->execute();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Contact Parallel</title>
-	<link type="text/css" rel="stylesheet" href="style.css">
+	<title>Contact | Parallel Reads</title>
+	<link type="text/css" rel="stylesheet" href="parallelstyle.css">
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
@@ -12,13 +31,18 @@
 	<script src="javascript.js"></script>
 </head>
 <body>
-	<header id="head">
-		<h1><a href="index.html">Parallel Reads</a></h1>
+	<header>
+		<h1><a href="index.php">Parallel Reads</a></h1>
 		<nav>
 			<ul>
-				<li><a href="index.html">Home</a></li>
-				<li><a href="products.html">Products</a></li>
-				<li><a href="contact.html">Contact Us</a></li>
+				<li><a href="index.php">Home</a></li>
+				<li><a href="products.php">Products</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
+				<?php if(isset($_SESSION['user_id'])):?>
+                    <li><a href="profile.php"><?=$user['username']?></a></li>
+                <?php else:?>
+                    <li><a href="login.php">Log In</a></li>
+                <?php endif?>
 			</ul>
 		</nav>
 	</header>
@@ -27,17 +51,23 @@
 		<div id="contact_info">
 			<h2>Contact Us</h2>
 			<p>parallelreads@gmail.com</p>
-			<p>204-835-4393</p>
+			<p>Manager phone number: 204-835-4393</p>
+			<p>For general inquiries: 929-556-2746</p>
 			<p>Because of the nature of our books, there is a limit of one copy per customer.</p>
 			<p>Book orders will be processed within a day of form submission. We will email you with more information at that point, such as your total.</p>
 		</div>
 		
-		<form name ="form" action="index.html">
+		<form name="form" action="index.php">
 			<h3>Your Information:</h3>
 			<input type="text" id="name" placeholder="Your Name">
 			<p class="error" id="name_error">* Please enter your name.</p>
 	
-			<input id="email" type="text" placeholder="Your Email">
+			<?php if(isset($_SESSION['user_id'])):?>
+                <input id="email" type="text" value="<?=$user['email']?>">
+            <?php else:?>
+                <input id="email" type="text" placeholder="Your Email">
+            <?php endif?>
+
 			<p class="error" id="email_error">* Please enter your email.</p>
 			<p class="error" id="emailformat_error">* Please enter a valid email address.</p>
 	
@@ -47,54 +77,12 @@
 
 			<h3>Which book(s) are you looking to purchase?</h3>
 			<div id="checkbox-container">
-				<div>
-					<input id="humans" type="checkbox">
-					<label for="humans">The Iron Principle</label>
-				</div>
-				<div>
-					<input id="animals" type="checkbox">
-					<label for="animals">Talking To The World</label>
-				</div>
-				<div>
-					<input id="plants" type="checkbox">
-					<label for="plants">The Power of a Seed</label>
-				</div>
-				<div>
-					<input id="solids" type="checkbox">
-					<label for="solids">The Absence of Nothing</label>
-				</div>
-				<div>
-					<input id="liquids" type="checkbox">
-					<label for="liquids">The War Against Rain</label>
-				</div>
-				<div>
-					<input id="gases" type="checkbox">
-					<label for="gases">The Second Stage</label>
-				</div>
-				<div>
-					<input id="plasma" type="checkbox">
-					<label for="plasma">The Fourth State</label>
-				</div>
-				<div>
-					<input id="recessive" type="checkbox">
-					<label for="recessive">A Dangerous Wish</label>
-				</div>
-				<div>
-					<input id="history" type="checkbox">
-					<label for="history">The Mad Lovers</label>
-				</div>
-				<div>
-					<input id="military" type="checkbox">
-					<label for="military">The Battle for Parallel</label>
-				</div>
-				<div>
-					<input id="magic" type="checkbox">
-					<label for="magic">Magic In The Air</label>
-				</div>
-				<div>
-					<input id="technology" type="checkbox">
-					<label for="technology">Before Hoverboards</label>
-				</div>
+				<?php while($row = $statement->fetch()):?>
+                	<div>
+                    	<input type="checkbox">
+						<label><?=$row['title']?></label>
+                	</div>
+            	<?php endwhile?>
 			</div>
 
 			<textarea name="message" placeholder = "Your Message"></textarea>
@@ -116,14 +104,20 @@
 		
 		<nav id="footernav">
 			<ul>
-				<li><a href="index.html">Home</a></li>
-				<li><a href="products.html">Products</a></li>
-				<li><a href="contact.html">Contact Us</a></li>
+				<li><a href="index.php">Home</a></li>
+				<li><a href="products.php">Products</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
+				<?php if(isset($_SESSION['user_id'])):?>
+                    <li><a href="profile.php">Account</a></li>
+                <?php else:?>
+                    <li><a href="login.php">Account</a></li>
+                <?php endif?>
+				<li><a href="inventory.php">Inventory</a></li>
 			</ul>
 		</nav>
 		
 		<p id="border">328 Falcon Lake, Manitoba, Canada</p>
-		<p>© Copyright 2024 Hayley Peters</p>
+		<p>© Copyright 2025 Hayley Peters</p>
 	</footer>
 </body>
 </html>
