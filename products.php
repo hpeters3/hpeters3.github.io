@@ -51,17 +51,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Our Selection | Parallel Reads</title>
 	<link type="text/css" rel="stylesheet" href="parallelstyle.css">
-    <link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
 	<link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body>
-    <header id="head">
-        <div>
-            <h1><a href="index.php">Parallel Reads</a></h1>
-        </div>
+    <header>
+        <h1><a href="index.php">Parallel Reads</a></h1>
         <nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
@@ -79,35 +76,35 @@
     <main>
         <h2 id="selection">Our selection of special edition books:</h2>
 
-        <div class="filter_buttons">
+        <div class="filter_container">
             <?php if(isset($_SESSION['user_id'])):?>
-               <form method="post" class="filters">
+               <form method="post" class="filter">
                    <input type="hidden" name="sort_title" value="sort_title">
                    <input type="submit" value="Sort Books By Title">
                </form>
     
-               <form method="post" class="filters">
+               <form method="post" class="filter">
                    <input type="hidden" name="sort_author" value="sort_author">
                    <input type="submit" value="Sort Books By Author">
                </form>
     
-               <form method="post" class="filters">
+               <form method="post" class="filter">
                    <input type="hidden" name="sort_price" value="sort_price">
                    <input type="submit" value="Sort Books By Price">
                </form>
 
-               <form method="post" class="filters">
+               <form method="post" class="filter">
                    <input type="hidden" name="sort_original" value="sort_original">
                    <input type="submit" value="Clear Filter">
                </form>
             <?php endif?>
 
             <?php if($_POST && isset($_POST['sort_title'])):?>
-                <p>Organizing By Title</p>
+                <h3>Organizing By Title</h3>
             <?php elseif($_POST && isset($_POST['sort_author'])):?>
-                <p>Organizing By Author</p>
+                <h3>Organizing By Author</h3>
             <?php elseif($_POST && isset($_POST['sort_price'])):?>
-                <p>Organizing By Price</p>
+                <h3>Organizing By Price</h3>
             <?php endif?>
         </div>
 
@@ -119,8 +116,8 @@
                             <img src="<?=$row['image']?>" alt="<?=$row['image_alt']?>">
                         <?php endif?>
                         <h4><?=$row['title']?></h4>
-                        <p><?=$row['author']?></p>
-                        <p><?=$row['price']?></p>
+                        <p>By <?=$row['author']?></p>
+                        <p>Price: $<?=$row['price']?></p>
                     </a>
                 </div>
             <?php endwhile?>
@@ -149,7 +146,7 @@
 		</nav>
 		
 		<p id="border">328 Falcon Lake, Manitoba, Canada</p>
-		<p>© Copyright 2024 Hayley Peters</p>
+		<p>© Copyright 2025 Hayley Peters</p>
 		
 	</footer>
 </body>

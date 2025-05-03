@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2025 at 06:36 PM
+-- Generation Time: May 03, 2025 at 10:26 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,11 +31,11 @@ CREATE TABLE `book_inventory` (
   `id` int(4) NOT NULL,
   `title` varchar(75) NOT NULL,
   `author` varchar(50) NOT NULL,
-  `description` varchar(500) NOT NULL,
+  `description` varchar(1000) NOT NULL,
   `genre` varchar(25) NOT NULL,
   `stock` int(3) NOT NULL,
-  `price` decimal(4,2) NOT NULL,
-  `image_alt` varchar(150) NOT NULL,
+  `price` decimal(5,2) NOT NULL,
+  `image_alt` varchar(300) NOT NULL,
   `image` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -44,18 +44,18 @@ CREATE TABLE `book_inventory` (
 --
 
 INSERT INTO `book_inventory` (`id`, `title`, `author`, `description`, `genre`, `stock`, `price`, `image_alt`, `image`) VALUES
-(4, 'The Battle for Parallel', 'Denzell Winters &amp; Conroy Madden', 'Denzell Winters goes through the best battles from Parallel&#039;s past, analyzing them and critiquing them with the help of expert Conroy Madden, currently leader of the Edmonton base.', 'Historical Nonfiction', 21, 26.99, 'A teal hardcover book with a gold symbol in the center with an &#039;A&#039;.', 0x75706c6f6164732f54686520426174746c6520666f7220506172616c6c656c2e6a7067),
-(5, 'Magic In The Air', 'Denzell Winters &amp; Andrea Ricard', 'The fascinating tale about Andrea&#039;s coming into herself and her capabilities, and how others can follower her footsteps.', 'Biography Nonfiction', 24, 19.76, 'A red hardcover book with a gold symbol in the center with an &#039;A&#039;.', 0x75706c6f6164732f4d6167696320496e20546865204169722e6a7067),
-(6, 'Before Hoverboards', 'Denzell Winters &amp; Jarvis Ives', 'Explore the world before technology, how it worked and how battle strategies have improved since then. Follow the story of the most infamous tech master there is, Jarvis Ives.', 'Historical Nonfiction', 19, 31.68, 'A purple hardcover book with a gold symbol in the center with an &#039;A&#039;.', 0x75706c6f6164732f4265666f726520486f766572626f617264732e6a7067),
-(7, 'The Iron Principle', 'Elizabeth Garcia', 'A provocative guide that explores techniques and strategies to subtly influence and control human behavior in various settings.', 'Science Nonfiction', 15, 26.87, 'A red hardcover book with the words &#039;El Principe de Hierro&#039;, with a large image of a prince underneath.', 0x75706c6f6164732f5468652049726f6e205072696e6369706c652e6a7067),
-(8, 'Talking To The World', 'Andrea Ricard', 'A comprehensive guide that reveals effective methods for understanding and mastering animal behavior, enabling you to train and influence animals with confidence and compassion.', 'Science Nonfiction', 24, 31.66, 'A black hardcover book with the outline of a silver butterfly.', 0x75706c6f6164732f54616c6b696e6720546f2054686520576f726c642e6a7067),
-(9, 'The Power of a Seed', 'Andrea Ricard', 'An insightful guide that combines practical tips, expert techniques, and natural methods to help you cultivate and master the art of growing and controlling plants in any environment.', 'Science Nonfiction', 32, 18.45, 'A green hardcover book with golden circle containing a golden tree inside.', 0x75706c6f6164732f54686520506f776572206f66206120536565642e6a7067),
-(10, 'The Absence of Nothing', 'Elizabeth Garcia', 'A captivating exploration of solid matter, unraveling its fundamental properties, behaviors, and role in shaping the structure of our universe.', 'Science Nonfiction', 29, 24.66, 'A red hardcover book.', 0x75706c6f6164732f54686520416273656e6365206f66204e6f7468696e672e6a7067),
-(11, 'The War Against Rain', 'Lucian Rivera', 'A thought-provoking guide that delves into the essential role of liquids in our world, offering practical insights on how to harness their properties for everyday use and innovation.', 'Science Nonfiction', 23, 29.23, 'A red hardcover book a silver circle containing a silver wave of water.', 0x75706c6f6164732f5468652057617220416761696e7374205261696e2e6a7067),
-(12, 'The Second Stage', 'Chiara Leclair', 'A fascinating journey into the world of gases, uncovering their mysterious behavior, how they shape our environment, and the ways we can control and harness them for various applications.', 'Science Nonfiction', 14, 16.39, 'A black hardcover book with a blue star in the middle containing the number two.', 0x75706c6f6164732f546865205365636f6e642053746167652e6a7067),
-(13, 'The Fourth State', 'Lucian Rivera &amp; Raya Ives', 'An exciting exploration of plasma, highlighting its incredible properties, its role in the universe, and the innovative ways we can control and utilize this powerful state of matter.', 'Science Nonfiction', 6, 35.43, 'A blue hardcover book with a golden fire symbol in the center.', 0x75706c6f6164732f54686520466f757274682053746174652e6a7067),
-(14, 'A Dangerous Wish', 'Jade Miller', 'Follow Jade as she explores the world of recessive genes, displaying how they can be a blessing and a curse.', 'Science Nonfiction', 10, 38.59, 'Recessive Genes Textbook', 0x75706c6f6164732f412044616e6765726f757320576973682e6a7067),
-(15, 'The Mad Lovers', 'Chimand Alizo', 'Follow the story of two lovers as they aim to make the world a better place, instead destroying it in the process.', 'Historical Fiction', 12, 38.96, 'A red hardcover book with intricate patterns on the front, with the title &#039;The Mad Lovers&#039; overtop of a slice of orange, all done in silver.', 0x75706c6f6164732f546865204d6164204c6f766572732e6a7067);
+(4, 'Victory in the Shadows', 'Denzell Winters', 'In &quot;Victory in the Shadows&quot;, Denzell Winters and Conroy Madden join forces to deliver a comprehensive education on military strategy and battlefield acumen. This book goes beyond basic tactics, delving into the core elements necessary for victory. Readers will learn how to bolster troop morale, acquire crucial intelligence, and adapt to the unpredictable nature of warfare. Furthermore, Winters and Madden address the challenges of unconventional conflicts, offering insights on navigating unexpected setbacks and managing situations where opponents possess superior or even otherworldly weaponry and techniques. &quot;Victory in the Shadows&quot; is an essential resource for anyone seeking a deep understanding of the principles and practices that lead to triumph in the face of adversity.', 'Military Nonfiction', 300, 38.75, 'A teal hardcover book with a gold symbol in the center with an &#039;A&#039;.', 0x75706c6f6164732f566963746f72792d696e2d7468652d536861646f77732e6a7067),
+(5, 'Magic In The Air', 'Denzell Winters', '&quot;Magic In The Air&quot; delves into the provocative question of magic&#039;s potential existence, challenging conventional scientific boundaries. Denzell Winters, aided by the knowledgeable Selene Cromwell, embarks on a quest to redefine magic, exploring its possible scientific basis, manifestations, and potential wielders. By re-examining dismissed possibilities, the book dares to imagine a world where the extraordinary could be explained, and magic becomes a tangible force.', 'Speculative Nonfiction', 300, 79.75, 'A red hardcover book with a gold symbol in the center with an &#039;A&#039;.', 0x75706c6f6164732f4d616769632d496e2d5468652d4169722e6a7067),
+(6, 'Breakpoint', 'Denzell Winters', 'Jarvis Ives, raised in suffocating isolation by his controlling family, finally breaks free after enduring years of loneliness and abuse. Unprepared for the modern world, he&#039;s thrust into a society saturated with technology he&#039;s never experienced. Driven by a thirst for knowledge and a desire to escape his past, Jarvis quickly masters coding. His newfound skills lead him down a dangerous path when he accepts a job to steal information from a powerful tech giant. But the mission quickly spirals out of control, plunging him back into a familiar state of fear and helplessness. Now, Jarvis must leverage his newfound tech abilities to navigate the treacherous landscape he&#039;s entered and find a way to reclaim his freedom while forging his own identity. Will he succeed in escaping the shadow of his past and mastering his future?', 'Science Fiction', 200, 88.25, 'A purple hardcover book with a gold symbol in the center with an &#039;A&#039;.', 0x75706c6f6164732f427265616b706f696e742e6a7067),
+(7, 'The Iron Prince', 'Opal Varynce', 'For centuries, the Iron Prince has observed Spain, an immortal observer meticulously studying the human condition. He believed he had deciphered the intricate tapestry of human behavior, predicting choices, understanding motivations, and ultimately, conquering boredom. But his ageless existence is thrown into thrilling chaos when he encounters a woman he cannot comprehend. Intrigued and challenged, he initially sees her as a complex puzzle, a game designed for his amusement. However, as their lives become increasingly intertwined, a chilling realization dawns: this woman isn&#039;t just a challenge; she&#039;s a critical test. If he fails to understand her, the consequences could shatter his immortal existence and the delicate balance he has quietly maintained for centuries. The Iron Prince must now unravel the mystery of this woman, or risk losing everything he thought he knew.', 'Fantasy Fiction', 200, 86.50, 'A red hardcover book with the words &#039;El Principe de Hierro&#039;, with a large image of a prince underneath.', 0x75706c6f6164732f5468652d49726f6e2d5072696e63652e6a7067),
+(8, 'Secrets of the Whisperers', 'Andrea Ricard', 'Prepare to unlock the secrets of the animal kingdom! This isn&#039;t just another book about pet training; it&#039;s a fascinating journey into the minds of creatures great and small. Imagine having the ability to truly understand and communicate with animals, from your playful pup to the majestic wildlife you see on nature documentaries. This book unveils time-tested techniques for gaining an animal&#039;s trust and cooperation, offering practical advice anyone can use to build a deeper connection with their furry, feathered, or scaled companions. But that&#039;s not all! Venture beyond the ordinary and discover the rare and enigmatic methods wielded by true &quot;animal whisperers&quot; &ndash; techniques that tap into a deeper level of understanding, reserved for those with a special connection. Get ready to transform your relationship with animals and unlock a world of communication you never thought possible!', 'Animal Nonfiction', 500, 36.75, 'A black hardcover book with the outline of a silver butterfly.', 0x75706c6f6164732f54616c6b696e672d546f2d5468652d576f726c642e6a7067),
+(9, 'The Verdant Code', 'Azalea Richard', '&quot;The Verdant Code&quot; is the definitive resource for anyone looking to master the world of plants. This comprehensive guide covers everything from basic planting techniques to advanced horticultural practices. But it goes beyond the typical gardening book, delving into the fascinating, and perhaps unbelievable, realm of plant connection and control. Discover how to nurture your green thumb not just for cultivation, but for a deeper understanding and even influence over the botanical world around you. Prepare to unlock the secrets to planting, growing, caring for, and ultimately, commanding the power of plants.', 'Gardening Nonfiction', 500, 41.50, 'A green hardcover book with golden circle containing a golden tree inside.', 0x75706c6f6164732f5468652d56657264616e742d436f64652e6a7067),
+(10, 'Absence of Nothing', 'Elizabeth Garcia', 'Elizabeth Garcia&#039;s book embarks on a fascinating journey exploring the very essence of our universe&#039;s solid matter. It delves into fundamental questions about our connection to the world, probing the nature of reality and the extent of human control over the matter that constitutes our universe. Garcia challenges readers to reconsider their perceptions, inviting them to ponder mind-bending concepts and ultimately rethink their understanding of the world around them. In essence, it&#039;s a philosophical and scientific exploration of the building blocks of existence and humanity&#039;s relationship with them.', 'Speculative Nonfiction', 200, 98.25, 'A red hardcover book.', 0x75706c6f6164732f416273656e63652d6f662d4e6f7468696e672e6a7067),
+(11, 'Waves of Chaos', 'Lucian Rivera', 'In Lucian Rivera&#039;s thought-provoking book, we are plunged into a future where the predictable patterns of weather have shattered, and the oceans, once contained, have burst free. Rivera masterfully explores the terrifying consequences of a world where its essential liquids&ndash;water, the lifeblood of the planet&ndash;spiral out of control. He delves into the underlying causes of these liquid disruptions, examining the factors that lead to ecological and societal collapse. More importantly, the book offers a glimmer of hope, dissecting the methods and strategies required to restore balance, regain control, and navigate the overwhelming chaos threatening to consume humanity. This is not just a cautionary tale, but a vital exploration of resilience.', 'Environmental Nonfiction', 600, 55.00, 'A red hardcover book a silver circle containing a silver wave of water.', 0x75706c6f6164732f57617665732d6f662d4368616f732e6a7067),
+(12, 'Step Two: The Alchemy of Breath', 'Chiara Leclair', 'This book delves into the powerful role of meditation in achieving self-mastery and control. It explores not only traditional meditative practices but also introduces unique and innovative techniques. Furthermore, the book examines the influence of specific gases, like nitrogen, oxygen, and argon, suggesting unconventional connections between these elements and the meditative process. This book uses mental techniques to unlock a deeper state of control. This edition also has diagrams to help further your journey towards control.', 'Self-Help Nonfiction', 900, 45.20, 'A black hardcover book with a blue star in the middle containing the number two.', 0x75706c6f6164732f537465702d54776f3b2d5468652d416c6368656d792d6f662d4272656174682e6a7067),
+(13, 'Creation of the Stars', 'Raya Ives', '&quot;Creation of the Stars&quot; compiles five ancient creation narratives, meticulously transcribed and woven together by Raya Ives. These stories, passed down through generations, explore profound themes: the genesis of stars, the stars&#039; weaving of the cosmos, the unique gifts bestowed upon humanity, the discovery of earth, and the establishment of order. Linking these diverse tales is the fundamental element of plasma. The book posits that plasma, in its transformative power, served as the catalyst for all creation, from the universe&#039;s inception to the present day. Ives&#039; work presents a compelling exploration of interconnectedness, suggesting that the forces shaping the cosmos are inherently linked to the human experience. This book contains many pieces of stunning artwork and diagrams created by Emily Thatcher, adding another layer of depth to this already meaningful book.', 'Oral Literature', 300, 105.50, 'A blue hardcover book with a golden fire symbol in the center.', 0x75706c6f6164732f4372656174696f6e2d6f662d7468652d53746172732e6a7067),
+(14, 'A Dangerous Wish', 'Jade Miller', 'Emilla Jerd was born different, thanks to her father&#039;s experiments on her genetics. She&rsquo;s hidden her powers all her life&mdash;until one moment of fear shatters her secrecy, unleashing a force she can&rsquo;t control. Cast out from the only home she&rsquo;s ever known, Emilla wanders through the wilderness, stalked by the memory of what she&rsquo;s done&hellip; and what she might do again. When she stumbles upon others like her, hope returns in the form of Elzandwean, a secret haven for the genetically altered. Yet peace is fleeting. As Emilla&rsquo;s abilities grow, so does a shadow within her: a hidden flaw in her genetics. What gives her power may also be unravelling her from the inside&mdash;slowly poisoning her and endangering everyone around her. Now, faced with a devastating truth, Emilla must make an impossible choice: embrace her abilities and risk dooming the sanctuary that saved her&hellip; or vanish into exile once more.', 'Fantasy Fiction', 500, 90.75, 'A black hardcover book with a intricate green frame around the words &#039;A WISH GRANTED IS A VERY SEDUCTIVE THING&#039; and an outline of an apple below it with green substance covering half of it and dripping down.', 0x75706c6f6164732f412d44616e6765726f75732d576973682e6a7067),
+(15, 'The Mad Lovers', 'Chimand Alizo', 'In a world brimming with injustice and shrouded in mystery, Ethan Frish, a relentless fighter for what&#039;s right, collides with Rose D., a young woman desperately seeking her lost family and a place to call home. Their paths unexpectedly intertwine, forging a bond fueled by shared purpose and a fragile hope. Ethan vows to aid Rose in her quest, embarking on a journey that unravels a web of dangerous truths, challenging their ideals and forcing them to confront the unsettling reality that the world&#039;s problems may be too deeply ingrained for simple solutions. Ultimately, they are left to grapple with a daunting conclusion: perhaps the only way forward is to dismantle the existing society and forge a new one from the ashes. This is their story of discovery, danger, and the difficult path towards a radical new vision.', 'Fantasy Fiction', 300, 75.25, 'A red hardcover book with intricate patterns on the front, with the title &#039;The Mad Lovers&#039; overtop of a slice of orange, all done in silver.', 0x75706c6f6164732f5468652d4d61642d4c6f766572732e6a7067);
 
 -- --------------------------------------------------------
 
@@ -71,13 +71,6 @@ CREATE TABLE `comments` (
   `public` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `comments`
---
-
-INSERT INTO `comments` (`id`, `user_id`, `book_id`, `comment`, `public`) VALUES
-(1, NULL, 15, 'This is my kind of book!', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -87,8 +80,8 @@ INSERT INTO `comments` (`id`, `user_id`, `book_id`, `comment`, `public`) VALUES
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  `email` varchar(30) NOT NULL
+  `password` varchar(65) NOT NULL,
+  `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -96,13 +89,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`) VALUES
-(5, 'DancingBooks', 'whyhellothere', 'hpeters3@academic.rrc.ca'),
-(6, 'Brickwall', 'unstoppable', 'rylanp37@gmail.com'),
-(9, 'Jaxon', 'testing123', 'bob@emai.com'),
-(10, 'Kennedy', 'iknowyoureverymove', 'parallelmastermind@gmail.com'),
-(11, 'StratOrtiz', 'kennedyortiz', 'rowanortiz@gmail.com'),
-(12, 'The Stars &amp; Raya', 'liquidsgasesandplasm', 'rayaelenastar@gmail.com'),
-(13, 'Em The Muse', 'redmixingpen', 'emthemuse@gmail.com');
+(5, 'DancingBooks', '$2y$10$4PVCdRd7XiIJ7yiN2Fmmvu2Xs6adLf25.JgLj/wFxJtOIIT/c48BW', 'hpeters3@academic.rrc.ca');
 
 --
 -- Indexes for dumped tables
@@ -136,19 +123,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `book_inventory`
 --
 ALTER TABLE `book_inventory`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables

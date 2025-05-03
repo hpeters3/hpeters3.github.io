@@ -11,22 +11,23 @@
 	<link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body>
-    <header id="head">
+    <header>
         <div>
             <h1>Parallel Reads</h1>
         </div>
 	</header>
 
     <main>
-        <p>I haven't actually coded this page yet. But don't worry, great things are coming.</p>
+        <div class="mystery">
+            <h1>YOU HAVE FOUND THE BLUE GEM</h1>
+            <img src="images/The-Blue-Gem.png" alt="Imagine a really fancy blue gem that you're really impressed you won.">
+            <h1>CONGRATULATIONS</h1>
+        </div>
     </main>
     
     <footer>
         <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank"><img src="Images/Youtube-removebg.png" alt="YouTube"></a>
-        
-        <p id="border">328 Falcon Lake, Manitoba, Canada</p>
-        <p>© Copyright 2024 Hayley Peters</p>
-        
+        <p>© Copyright 2025 Hayley Peters</p>
     </footer>
 </body>
 </html>

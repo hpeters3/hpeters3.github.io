@@ -56,10 +56,8 @@
 	<link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body>
-    <header id="head">
-        <div>
+	<header>
             <h1><a href="index.php">Parallel Reads</a></h1>
-        </div>
         <nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
@@ -70,6 +68,7 @@
                 <?php else:?>
                     <li><a href="login.php">Log In</a></li>
                 <?php endif?>
+                <li><a href="inventory.php">Inventory</a></li>
                 
             </ul>
         </nav>
@@ -119,7 +118,7 @@
 		</nav>
 		
 		<p id="border">328 Falcon Lake, Manitoba, Canada</p>
-		<p>© Copyright 2024 Hayley Peters</p>
+		<p>© Copyright 2025 Hayley Peters</p>
 		
 	</footer>
 </body>

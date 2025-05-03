@@ -53,54 +53,60 @@
 		</section>
 	
 		<section id="padding" class="sales">
-			<h4 class="italic">Our 2024 sales.</h4>
+			<h4 class="italic">Our 2025 sales</h4>
 			<div>
-				<img src="uploads/The-Battle-For-Parallel.jpg" alt="A teal hardcover book with a gold symbol in the center with an 'A'.">
-				<h4>The Battle for Parallel</h4>
-				<p>By Denzell Winters & Conroy Madden</p>
-				<p><span class="strike">$32.53</span>&nbsp; &mdash; now $26.99!</p>
-				<p><a href="contact.php">Buy Here</a></p>
+				<a href="contact.php">
+					<img src="uploads/Victory-in-the-Shadows.jpg" alt="A teal hardcover book with a gold symbol in the center with an 'A'.">
+					<h4>Victory in the Shadows</h4>
+					<p>By Denzell Winters</p>
+					<p><span class="strike">$43.05</span>&nbsp; &mdash; now $38.75!</p>
+				</a>
 			</div>
 			<div>
-				<img src="uploads/Magic-In-The-Air.jpg" alt="A red hardcover book with a gold symbol in the center with an 'A'.">
-				<h4>Magic In The Air</h4>
-				<p>By Denzell Winters & Andrea Ricard</p>
-				<p><span class="strike">$25.85</span>&nbsp; &mdash; now $19.76!</p>
-				<p><a href="contact.php">Buy Here</a></p>
+				<a href="contact.php">
+					<img src="uploads/Magic-In-The-Air.jpg" alt="A red hardcover book with a gold symbol in the center with an 'A'.">
+					<h4>Magic In The Air</h4>
+					<p>By Denzell Winters</p>
+					<p><span class="strike">$88.61</span>&nbsp; &mdash; now $79.75!</p>
+				</a>
 			</div>
 			<div>
-				<img src="uploads/Before-Hoverboards.jpg" alt="A purple hardcover book with a gold symbol in the center with an 'A'.">
-				<h4>Before Hoverboards</h4>
-				<p>By Denzell Winters & Jarvis Ives.</p>
-				<p><span class="strike">$35.95</span>&nbsp; &mdash; now $31.68!</p>
-				<p><a href="contact.php">Buy Here</a></p>
+				<a href="contact.php">
+					<img src="uploads/Breakpoint.jpg" alt="A purple hardcover book with a gold symbol in the center with an 'A'.">
+					<h4>Breakpoint</h4>
+					<p>By Denzell Winters</p>
+					<p><span class="strike">$98.05</span>&nbsp; &mdash; now $88.25!</p>
+				</a>
 			</div>
 		</section>
 	
 		<section class="sales">
-			<h4 class="italic" id="small">Bestsellers.</h4>
+			<h4 class="italic" id="small">Bestsellers</h4>
 			<div>
-				<img src="uploads/Talking-To-The-World.jpg" alt="A black hardcover book with the outline of a silver butterfly.">
-				<h4>Talking To The World</h4>
-				<p>By Andrea Ricard</p>
-				<p>$31.66</p>
-				<p><a href="contact.php">Buy Here</a></p>
+				<a href="contact.php">
+					<img src="uploads/The-Mad-Lovers.jpg" alt="A red hardcover book with intriducte patterns on the front, with the title 'The 	Bad Lovers' overtop of a slice of orange, all done in silver.">
+					<h4>The Mad Lovers</h4>
+					<p>By Chimand Alizo</p>
+					<p>$75.25</p>
+				</a>
 			</div>
 			<div>
-				<img src="uploads/The-Fourth-State.jpg" alt="A blue hardcover book with a golden fire symbol in the center.">
-				<h4>The Fourth State</h4>
-				<p>By Lucian Rivera & Raya Ives</p>
-				<p>$35.43</p>
-				<p><a href="contact.php">Buy Here</a></p>
+				<a href="contact.php">
+					<img src="uploads/Waves-of-Chaos.jpg" alt="A red hardcover book a silver circle containing a silver wave of water.">
+					<h4>Waves of Chaos</h4>
+					<p>By Lucian Rivera</p>
+					<p>$55.00</p>
+				</a>
 			</div>
 			<div>
-				<img src="uploads/The-Mad-Lovers.jpg" alt="A red hardcover book with intriducte patterns on the front, with the title 'The Bad Lovers' overtop of a slice of orange, all done in silver.">
-				<h4>The Mad Lovers</h4>
-				<p>By Chimand Alizo</p>
-				<p>$38.96</p>
-				<p><a href="contact.php">Buy Here</a></p>
+				<a href="contact.php">
+					<img src="uploads/A-Dangerous-Wish.jpg" alt="A black hardcover book with a intricate green frame around the words 'A WISH GRANTED IS A VERY SEDUCTIVE THING' and an outline of an apple below it with green substance covering half of it and dripping down.">
+					<h4>A Dangerous Wish</h4>
+					<p>By Jade Miller</p>
+					<p>$90.75</p>
+				</a>
 			</div>
-			<h4 class="italic" id="large">Bestsellers.</h4>
+			<h4 class="italic" id="large">Bestsellers</h4>
 		</section>
 	</main>
 
@@ -126,7 +132,7 @@
 		</nav>
 		
 		<p id="border">328 Falcon Lake, Manitoba, Canada</p>
-		<p>© Copyright 2024 Hayley Peters</p>
+		<p>© Copyright 2025 Hayley Peters</p>
 		
 	</footer>
 </body>

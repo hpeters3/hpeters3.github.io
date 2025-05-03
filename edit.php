@@ -149,17 +149,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Edit <?=$post['title']?> | Parallel Reads</title>
 	<link type="text/css" rel="stylesheet" href="parallelstyle.css">
-	<link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
 	<link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body>
-    <header id="head">
-        <div>
-            <h1><a href="index.php">Parallel Reads</a></h1>
-        </div>
+   <header>
+        <h1><a href="index.php">Parallel Reads</a></h1>
         <nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
@@ -202,10 +199,10 @@
 
 					<fieldset>
 						<p><label for="image">Image</label>
-						<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
 						<input type="file" id="image" name="image">
 
 						<?php if($post['image']):?>
+							<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
 							<button name="delete_image" value="<?=$post['image']?>">Delete Image</button></p>
 						<?php endif?>
 
@@ -252,7 +249,7 @@
 		</nav>
 		
 		<p id="border">328 Falcon Lake, Manitoba, Canada</p>
-		<p>© Copyright 2024 Hayley Peters</p>
+		<p>© Copyright 2025 Hayley Peters</p>
 	</footer>
 </body>
 </html>

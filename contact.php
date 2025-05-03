@@ -31,7 +31,7 @@
 	<script src="javascript.js"></script>
 </head>
 <body>
-	<header id="head">
+	<header>
 		<h1><a href="index.php">Parallel Reads</a></h1>
 		<nav>
 			<ul>
@@ -117,7 +117,7 @@
 		</nav>
 		
 		<p id="border">328 Falcon Lake, Manitoba, Canada</p>
-		<p>© Copyright 2024 Hayley Peters</p>
+		<p>© Copyright 2025 Hayley Peters</p>
 	</footer>
 </body>
 </html>

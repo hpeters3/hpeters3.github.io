@@ -85,17 +85,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?=$post['title']?> | Parallel Reads</title>
 	<link type="text/css" rel="stylesheet" href="parallelstyle.css">
-	<link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
 	<link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body>
-    <header id="head">
-        <div>
-            <h1><a href="index.php">Parallel Reads</a></h1>
-        </div>
+    <header>
+        <h1><a href="index.php">Parallel Reads</a></h1>
         <nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
@@ -111,58 +108,62 @@
 	</header>
 
 	<main>
-		<section id="products">
+		<div id="book-container">
 			<?php if($id):?>
-				<div>
-					<h2><?=$post['title']?></h2>
-					<?php if($post['image']):?>
-                       	<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
-                    <?php endif?>
-        			<p><?=$post['author'] ?></p>
-        			<p><?=$post['description'] ?></p>
-        			<p><?=$post['genre'] ?></p>
-        			<p><?=$post['stock'] ?></p>
-        			<p><?=$post['price'] ?></p>
+				<div id="book">
+					<div id="display-image">
+						<?php if($post['image']):?>
+        	            	<img src="<?=$post['image']?>" alt="<?=$post['image_alt']?>">
+        	        	<?php endif?>
+					</div>
+					<div id="information">
+						<h2><?=$post['title']?></h2>
+        				<p>By <?=$post['author'] ?></p>
+        				<p><?=$post['description'] ?> </p>
+        				<p>Genre: <?=$post['genre'] ?></p>
+        				<p>Stock: <?=$post['stock'] ?></p>
+        				<p>Price: $<?=$post['price'] ?></p>
+					</div>
         		</div>
         	<?php else:
         		header("Location: products.php");
         	endif?>
-    	</section>
-
-    	<?php if(isset($_SESSION['user_id'])):?>
-    		<section>
-    			<form method="post">
-    				<textarea name="comment" placeholder="Enter your review here."></textarea>
+        </div>
+   		
+        <div id="create-comment">
+    		<?php if(isset($_SESSION['user_id'])):?>
+    			<form class="comment-form" method="post">
+    					<textarea name="comment" rows="5" cols="50" placeholder="Enter your review here."></textarea>
     				<input type="submit" value="Submit">
     			</form>
-    		</section>
-    	<?php else:?>
-    		<section>
-    			<form method="post">
-    				<textarea name="comment" placeholder="Enter your review here."></textarea>
-    				<a href="login.php">Log in to join the conversation.</a>
+    		<?php else:?>
+    			<form class="comment-form" method="post">
+    				<textarea name="comment" rows="5" cols="50" placeholder="Enter your review here."></textarea>
+    				<a href="login.php">Log in to join the conversation</a>
     			</form>
-    		</section>
-    	<?php endif;
-
-    	while($comments = $statement->fetch()):
-    		if($comments['public'] == 0):?>
-				<div>
-					<?php if(empty($comments['username'])):?>
-						<p>Deleted User</p>
-					<?php else:?>
-        				<p><?=$comments['username'] ?></p>
-        			<?php endif?>
-        			<p><?=$comments['comment'] ?></p>
+    	<?php endif?>
+    	</div>
 	
-        			<?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $comments['user_id']):?>
-    					<form method="post" id="buttons">
-							<button type="submit" name="delete" value="<?=$comments['id']?>">Delete</button>
-						</form>
-					<?php endif?>
-        		</div>
-        	<?php endif;
-        endwhile?>
+		<div id="comments">
+    		<?php while($comments = $statement->fetch()):
+    			if($comments['public'] == 0):?>
+					<div class="comment">
+						<?php if(empty($comments['username'])):?>
+							<h4>Deleted User</h4>
+						<?php else:?>
+    	    				<h4><?=$comments['username'] ?></h4>
+    	    			<?php endif?>
+    	    			<p><?=$comments['comment'] ?></p>
+			
+    	    			<?php if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $comments['user_id']):?>
+    						<form method="post" class="counter-form">
+								<button type="submit" class="button-display" name="delete" value="<?=$comments['id']?>">Delete</button>
+							</form>
+						<?php endif?>
+    	    		</div>
+    	    	<?php endif;
+    	    endwhile?>
+    	</div>
 	</main>
 
 	<footer>
@@ -187,7 +188,7 @@
 		</nav>
 		
 		<p id="border">328 Falcon Lake, Manitoba, Canada</p>
-		<p>© Copyright 2024 Hayley Peters</p>
+		<p>© Copyright 2025 Hayley Peters</p>
 		
 	</footer>
 </body>

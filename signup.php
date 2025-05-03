@@ -63,7 +63,6 @@
 					{
 						$id = false;
 					}
-						
 				}
 			}
 			else
@@ -80,9 +79,6 @@
 	{
 		$username_exists = true;
 	}
-
-	
-
 ?>
 
 <!DOCTYPE html>
@@ -92,17 +88,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Parallel Inventory</title>
 	<link type="text/css" rel="stylesheet" href="parallelstyle.css">
-	<link rel="stylesheet" type="text/css" href="cms.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
 	<link rel="manifest" href="favicon_io/site.webmanifest">
 </head>
 <body>
-    <header id="head">
-        <div>
-            <h1><a href="index.php">Parallel Reads</a></h1>
-        </div>
+   <header>
+        <h1><a href="index.php">Parallel Reads</a></h1>
         <nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
@@ -112,40 +105,47 @@
             </ul>
         </nav>
 	</header>
-	<main id="contact">
-		<div id="contact_info">
-				<form method="post">
-					<label for="username">Username:</label>
-					<input id="username" name="username">
-					<label for="email">Email:</label>
-					<input id="email" name="email">
-					<label for="password">Password:</label>
-					<input id="password" name="password" type="password">
-					<label for="repassword">Re-enter password:</label>
-					<input id="repassword" name="repassword" type="password">
-					<input id="buttons" type="submit" value="Sign Up">
-	
-					<?php if($id == false):?>
-						<p>You missed something, make sure you fill in all the fields.</p>
-					<?php elseif($email_exists == true):?>
-						<p>That email is already associated with an account. Either choose a new email or login.</p>
-					<?php elseif($username_exists == true):?>
-						<p>That username is already taken. Try another one.</p>
-					<?php endif ?>
+	<main id="credentials-page">
+		<div id="credentials">
+			<div id="img-left">
+				<img src="images/Part-1.png">
+			</div>
+			<form method="post">
+				<label for="username">Username:</label>
+				<input id="username" name="username">
+				<label for="email">Email:</label>
+				<input id="email" name="email">
+				<label for="password">Password:</label>
+				<input id="password" name="password" type="password">
+				<label for="repassword">Re-enter password:</label>
+				<input id="repassword" name="repassword" type="password">
+				<input id="buttons" type="submit" value="Sign Up">
 
-					<?php if($valid == false):?>
-						<p>That is an invalid email. Please enter another one.</p>
-					<?php endif?>
+				<?php if($id == false):?>
+					<p class="signup">You missed something, make sure you fill in all the fields.</p>
+				<?php elseif($email_exists == true):?>
+					<p class="signup">That email is already associated with an account. Either choose a new email or login.</p>
+				<?php elseif($username_exists == true):?>
+					<p class="signup">That username is already taken. Try another one.</p>
+				<?php endif ?>
 
-					<?php if($long == true):?>
-						<p>The username is too long. Please enter a different one.</p>
-					<?php endif?>
+				<?php if($valid == false):?>
+					<p class="signup">That is an invalid email. Please enter another one.</p>
+				<?php endif?>
 
-					<?php if($_POST && strcmp($_POST['password'], $_POST['repassword']) != 0):?>
-						<p>Your passwords do not match. Try again.</p>
-					<?php endif?>
-				</form>
+				<?php if($long == true):?>
+					<p class="signup">The username is too long. Please enter a different one.</p>
+				<?php endif?>
+				
+				<?php if($_POST && strcmp($_POST['password'], $_POST['repassword']) != 0):?>
+					<p class="signup">Your passwords do not match. Try again.</p>
+				<?php endif?>
+			</form>
+			<div id="img-right">
+				<img src="images/Part-2.png">
+			</div>
 		</div>
+		
 	</main>
 	<footer>
 		<a href="https://www.facebook.com/" target="_blank"><img src="Images/Facebook-removebg.png" alt="Facebook"></a>
