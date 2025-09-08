@@ -14,7 +14,7 @@ export default function Projects() {
             Applications I've Built
           </h1>
           <p>
-            The projects from my education that I'm the most product of (with
+            The projects from my education that I'm the most proud of (with
             Parallel Reads being the top, especially because it's deployed).
           </p>
         </div>
